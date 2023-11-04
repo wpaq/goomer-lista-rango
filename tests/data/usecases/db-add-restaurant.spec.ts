@@ -37,4 +37,10 @@ describe('DbAddRestaurant usecase', () => {
     const response = sut.add(mockAddRestaurantParams())
     await expect(response).rejects.toThrow()
   })
+
+  test('Should return an restaurant on success', async () => {
+    const { sut, addRestaurantRepositorySpy } = makeSut()
+    const result = await sut.add(mockAddRestaurantParams())
+    expect(result).toEqual(addRestaurantRepositorySpy.result)
+  })
 })
