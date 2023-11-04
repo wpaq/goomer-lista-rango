@@ -11,6 +11,6 @@
 > ## Exceções
 
 1. ❌ Retorna erro **404** se a API não existir
-2. ❌ Retorna erro **400** se restaurantId não for fornecido pelo client
-3. ❌ Retorna erro **403** se o restaurantId passado for inválido
+2. ❌ Retorna erro **400** se **restaurantId** não for fornecido pelo client
+3. ❌ Retorna erro **403** se o **restaurantId** passado for inválido
 4. ❌ Retorna erro **500** se der erro ao tentar atualizar o restaurante

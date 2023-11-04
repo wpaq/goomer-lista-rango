@@ -12,6 +12,6 @@
 > ## Exceções
 
 1. ❌ Retorna erro **404** se a API não existir
-2. ❌ Retorna erro **400** se photo, name, address ou openingHours não forem fornecidos pelo client
-3. ❌ Retorna erro **400** se o campo openingHours não for um horário válido, HH:mm
+2. ❌ Retorna erro **400** se **photo**, **name**, **address** ou **openingHours** não forem fornecidos pelo client
+3. ❌ Retorna erro **400** se o campo **openingHours** não for um horário válido, HH:mm
 4. ❌ Retorna erro **500** se der erro ao tentar criar o restaurante
