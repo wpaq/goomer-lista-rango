@@ -30,4 +30,11 @@ describe('DbAddRestaurant usecase', () => {
       openingHours: addRestaurantParams.openingHours
     })
   })
+
+  test('Should throw if AddRestaurantRepository throws', async () => {
+    const { sut, addRestaurantRepositorySpy } = makeSut()
+    jest.spyOn(addRestaurantRepositorySpy, 'add').mockRejectedValueOnce(new Error())
+    const response = sut.add(mockAddRestaurantParams())
+    await expect(response).rejects.toThrow()
+  })
 })
