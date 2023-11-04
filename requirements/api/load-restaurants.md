@@ -1,4 +1,4 @@
-# Listas Restaurantes
+# Listar Restaurantes
 
 > ## Caso de sucesso
 
