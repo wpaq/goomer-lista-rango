@@ -1,32 +1,33 @@
+import { AddRestaurantRepositorySpy } from '@/tests/data/mocks'
+import { mockAddRestaurantParams } from '@/tests/domain/mocks'
+
 import { DbAddRestaurant } from '@/data/usecases'
-import { type AddRestaurantRepository } from '@/data/protocols'
-import { type RestaurantModel } from '@/domain/models'
-import { type AddRestaurantParams } from '@/domain/usecases'
+
+type SutTypes = {
+  sut: DbAddRestaurant
+  addRestaurantRepositorySpy: AddRestaurantRepositorySpy
+}
+
+const makeSut = (): SutTypes => {
+  const addRestaurantRepositorySpy = new AddRestaurantRepositorySpy()
+  const sut = new DbAddRestaurant(addRestaurantRepositorySpy)
+  return {
+    sut,
+    addRestaurantRepositorySpy
+  }
+}
 
 describe('DbAddRestaurant usecase', () => {
   test('Should call AddRestaurantRepository with correct data', async () => {
-    class AddRestaurantRepositorySpy implements AddRestaurantRepository {
-      async add (data: AddRestaurantParams): Promise<boolean | RestaurantModel> {
-        const fakeRestaurant = {
-          id: 'any_id',
-          photo: 'any_photo',
-          name: 'any_name',
-          address: 'any_address',
-          openingHours: 'any_hours'
-        }
-        return await Promise.resolve(fakeRestaurant)
-      }
-    }
-    const addRestaurantRepositorySpy = new AddRestaurantRepositorySpy()
-    const sut = new DbAddRestaurant(addRestaurantRepositorySpy)
-    const addSpy = jest.spyOn(addRestaurantRepositorySpy, 'add')
-    const addRestaurantParams = {
-      photo: 'any_photo',
-      name: 'any_name',
-      address: 'any_address',
-      openingHours: 'any_hours'
-    }
+    const { sut, addRestaurantRepositorySpy } = makeSut()
+    const addRestaurantParams = mockAddRestaurantParams()
     await sut.add(addRestaurantParams)
-    expect(addSpy).toHaveBeenCalledWith(addRestaurantParams)
+
+    expect(addRestaurantRepositorySpy.addRestaurantParams).toEqual({
+      photo: addRestaurantParams.photo,
+      name: addRestaurantParams.name,
+      address: addRestaurantParams.address,
+      openingHours: addRestaurantParams.openingHours
+    })
   })
 })
