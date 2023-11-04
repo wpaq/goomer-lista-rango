@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Desafio para Criar uma API RESTful capaz de gerenciar os restaurantes e os produtos do seu cardápio",
   "author": "Wallyson Pablo",
-  "license": "ISC",
+  "license": "GPL-3.0-or-later",
+  "repository": "github:wpaq/goomer-lista-rango",
   "scripts": {
     "start": "node dist/main/server.js",
     "debug": "nodemon -L --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/main/server.js",
