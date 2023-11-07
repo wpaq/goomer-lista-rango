@@ -1,4 +1,4 @@
-import { typeorm } from './data-source'
+import { PostgresDataSource as typeorm } from './data-source'
 
 import { type DataSource } from 'typeorm'
 

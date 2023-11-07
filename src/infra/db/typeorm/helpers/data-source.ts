@@ -2,7 +2,7 @@ import 'dotenv/config'
 import 'reflect-metadata'
 import { DataSource } from 'typeorm'
 
-export const typeorm = new DataSource({
+export const PostgresDataSource = new DataSource({
   type: 'postgres',
   host: process.env.DATABASE_HOST,
   port: process.env.DATABASE_PORT as number | undefined,
@@ -12,6 +12,7 @@ export const typeorm = new DataSource({
   synchronize: true,
   logging: false,
   entities: [],
-  migrations: [],
+  migrations: ['src/infra/db/typeorm/migrations/*.{ts,js}'],
+  migrationsRun: true,
   subscribers: []
 })
