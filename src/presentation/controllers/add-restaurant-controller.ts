@@ -14,6 +14,14 @@ export class AddRestaurantController implements Controller {
       return badRequest(error)
     }
 
+    const { photo, name, address, openingHours } = httpRequest.body
+    await this.addRestaurant.add({
+      photo,
+      name,
+      address,
+      openingHours
+    })
+
     return ok('any_data')
   }
 }
