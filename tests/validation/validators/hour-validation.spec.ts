@@ -27,4 +27,11 @@ describe('HourValidation', () => {
     const error = sut.validate({ [field]: hour })
     expect(error).toEqual(new InvalidParamError(field))
   })
+
+  test('Should call HourValidator with correct date', () => {
+    const { sut, hourValidatorSpy } = makeSut()
+    const hour = '00:00'
+    sut.validate({ [field]: hour })
+    expect(hourValidatorSpy.hour).toBe(hour)
+  })
 })

@@ -2,10 +2,10 @@ import { type HourValidator } from '@/validation/protocols'
 
 export class HourValidatorSpy implements HourValidator {
   isHourValid = true
-  date: string
+  hour: string
 
-  isHour (date: string): boolean {
-    this.date = date
+  isHour (hour: string): boolean {
+    this.hour = hour
     return this.isHourValid
   }
 }
