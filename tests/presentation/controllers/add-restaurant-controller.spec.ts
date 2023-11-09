@@ -2,6 +2,8 @@ import { AddRestaurantSpy, ValidationSpy } from '@/tests/presentation/mocks'
 
 import { type HttpRequest } from '@/presentation/protocols'
 import { AddRestaurantController } from '@/presentation/controllers'
+import { badRequest } from '@/presentation/helpers'
+import { MissingParamError } from '@/presentation/errors'
 
 import { faker } from '@faker-js/faker'
 
@@ -37,5 +39,12 @@ describe('AddRestaurant Controller', () => {
     const request = mockRequest()
     await sut.handle(request)
     expect(validationSpy.input).toEqual(request.body)
+  })
+
+  test('Should return 400 if Validation returns an error', async () => {
+    const { sut, validationSpy } = makeSut()
+    validationSpy.error = new MissingParamError(faker.word.words())
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual(badRequest(validationSpy.error))
   })
 })
