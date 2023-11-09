@@ -34,4 +34,12 @@ describe('HourValidation', () => {
     sut.validate({ [field]: hour })
     expect(hourValidatorSpy.hour).toBe(hour)
   })
+
+  test('Should throw if HourValidator throws', () => {
+    const { sut, hourValidatorSpy } = makeSut()
+    jest.spyOn(hourValidatorSpy, 'isHour').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    expect(sut.validate).toThrow()
+  })
 })
