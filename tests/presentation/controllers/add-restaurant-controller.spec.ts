@@ -2,7 +2,7 @@ import { AddRestaurantSpy, ValidationSpy } from '@/tests/presentation/mocks'
 
 import { type HttpRequest } from '@/presentation/protocols'
 import { AddRestaurantController } from '@/presentation/controllers'
-import { badRequest } from '@/presentation/helpers'
+import { badRequest, serverError } from '@/presentation/helpers'
 import { MissingParamError } from '@/presentation/errors'
 
 import { faker } from '@faker-js/faker'
@@ -53,5 +53,12 @@ describe('AddRestaurant Controller', () => {
     const request = mockRequest()
     await sut.handle(request)
     expect(addRestaurantSpy.addRestaurantParams).toEqual(request.body)
+  })
+
+  test('Should return 500 if AddRestaurant throws', async () => {
+    const { sut, addRestaurantSpy } = makeSut()
+    jest.spyOn(addRestaurantSpy, 'add').mockRejectedValueOnce(new Error())
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 })
