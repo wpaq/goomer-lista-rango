@@ -1,16 +1,16 @@
-import { PostgresDataSource as typeorm } from './data-source'
-
-import { type DataSource } from 'typeorm'
+import { PostgresDataSource, PostgresDataSourceTest } from './'
 
 export const TypeormHelper = {
-  client: typeorm,
+  client: PostgresDataSource,
 
-  async connect (typeorm: DataSource) {
-    await typeorm.initialize()
-    this.client = typeorm
+  async connect (database?: string) {
+    if (database === 'test') {
+      this.client = PostgresDataSourceTest
+    }
+    await this.client.initialize()
   },
 
-  async disconnect (typeorm: DataSource) {
-    await typeorm.destroy()
+  async disconnect () {
+    await this.client.destroy()
   }
 }
