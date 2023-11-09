@@ -47,4 +47,11 @@ describe('AddRestaurant Controller', () => {
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(badRequest(validationSpy.error))
   })
+
+  test('Should call AddRestaurant with correct values', async () => {
+    const { sut, addRestaurantSpy } = makeSut()
+    const request = mockRequest()
+    await sut.handle(request)
+    expect(addRestaurantSpy.addRestaurantParams).toEqual(request.body)
+  })
 })
