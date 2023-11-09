@@ -16,14 +16,14 @@ export class AddRestaurantController implements Controller {
       }
 
       const { photo, name, address, openingHours } = httpRequest.body
-      await this.addRestaurant.add({
+      const restaurant = await this.addRestaurant.add({
         photo,
         name,
         address,
         openingHours
       })
 
-      return ok('any_data')
+      return ok(restaurant)
     } catch (error) {
       return serverError(error)
     }
