@@ -2,8 +2,9 @@ import { mockAddRestaurantParams } from '@/tests/domain/mocks'
 
 import { RestaurantTypeormRepository, TypeormHelper } from '@/infra/db/typeorm'
 import { Restaurant } from '@/infra/db/typeorm/entities'
+import { type ObjectLiteral, type Repository } from 'typeorm'
 
-let restaurantRepository
+let restaurantRepository: Repository<ObjectLiteral>
 
 const makeSut = (): RestaurantTypeormRepository => {
   return new RestaurantTypeormRepository()
