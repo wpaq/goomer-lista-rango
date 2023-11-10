@@ -1,7 +1,7 @@
 # Desafio, a API deverá ser capaz de:
 
 ❌ Listar todos os restaurantes
-❌ Cadastrar novos restaurantes
+✅ Cadastrar novos restaurantes
 ❌ Listar os dados de um restaurante
 ❌ Alterar os dados um restaurante
 ❌ Excluir um restaurante
@@ -11,10 +11,10 @@
 ❌ Excluir um produto de um restaurante
 
 ## O cadastro do restaurante precisa ter os seguintes campos:
-❌ Foto do restaurante
-❌ Nome do restaurante
-❌ Endereço do restaurante
-❌ Horários de funcionamento do restaurante (ex.: De Segunda à Sexta das 09h as 18h e de Sabado à Domingo das 11h as 20h).
+✅ Foto do restaurante
+✅ Nome do restaurante
+✅ Endereço do restaurante
+✅ Horários de funcionamento do restaurante (ex.: De Segunda à Sexta das 09h as 18h e de Sabado à Domingo das 11h as 20h).
 
 ## O cadastro de produtos do restaurante precisa ter os seguintes campos:
 ❌ Foto do produto
@@ -29,5 +29,5 @@
 
 ## Formato de horários
 ❌ É necessário tratar os campos que indicam horários de funcionamento e horário para as promoções dos produtos.
-❌ Os campos devem possuir o formato HH:mm.
+✅ Os campos devem possuir o formato HH:mm.
 ❌ Os horários devem possuir intervalo mínimo de 15 minutos.
