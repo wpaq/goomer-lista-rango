@@ -11,7 +11,7 @@ const makeSut = (): RestaurantTypeormRepository => {
 
 describe('RestaurantTypeormRepository', () => {
   beforeAll(async () => {
-    await TypeormHelper.connect('test')
+    await TypeormHelper.connect()
     restaurantRepository = TypeormHelper.client.getRepository(Restaurant)
   })
 

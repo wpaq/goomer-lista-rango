@@ -11,7 +11,7 @@ const makeSut = (): LogErrorTypeormRepository => {
 
 describe('LogErrorTypeorm Repository', () => {
   beforeAll(async () => {
-    await TypeormHelper.connect('test')
+    await TypeormHelper.connect()
     logErrorRepository = TypeormHelper.client.getRepository(LogError)
   })
 

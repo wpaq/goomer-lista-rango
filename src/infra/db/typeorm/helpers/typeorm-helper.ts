@@ -1,12 +1,9 @@
-import { PostgresDataSource, PostgresDataSourceTest } from './'
+import { TypeormDataSource } from './data-source'
 
 export const TypeormHelper = {
-  client: PostgresDataSource,
+  client: TypeormDataSource,
 
-  async connect (database?: string) {
-    if (database === 'test') {
-      this.client = PostgresDataSourceTest
-    }
+  async connect () {
     await this.client.initialize()
   },
 

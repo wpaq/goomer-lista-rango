@@ -3,13 +3,17 @@ import 'reflect-metadata'
 import { DataSource } from 'typeorm'
 import { LogError, Restaurant } from '@/infra/db/typeorm/entities'
 
-export const PostgresDataSource = new DataSource({
+if (process.env.NODE_ENV === 'development') {
+  process.env.DATABASE_URL = 'postgres://typeorm:password@localhost:5432/goomer-lista-rango'
+}
+
+if (process.env.NODE_ENV === 'test') {
+  process.env.DATABASE_URL = 'postgres://typeorm:password@localhost:5432/goomer-lista-rango-test'
+}
+
+export const TypeormDataSource = new DataSource({
   type: 'postgres',
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT as number | undefined,
-  username: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
+  url: process.env.DATABASE_URL,
   synchronize: true,
   logging: false,
   entities: [Restaurant, LogError],
