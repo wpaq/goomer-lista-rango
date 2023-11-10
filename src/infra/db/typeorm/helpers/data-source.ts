@@ -1,6 +1,8 @@
+import 'module-alias/register'
 import 'dotenv/config'
 import 'reflect-metadata'
 import { DataSource } from 'typeorm'
+
 import { LogError, Restaurant } from '@/infra/db/typeorm/entities'
 
 if (process.env.NODE_ENV === 'development') {
