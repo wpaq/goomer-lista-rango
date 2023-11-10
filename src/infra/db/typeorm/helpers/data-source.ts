@@ -1,6 +1,7 @@
 import 'dotenv/config'
 import 'reflect-metadata'
 import { DataSource } from 'typeorm'
+import { LogError, Restaurant } from '@/infra/db/typeorm/entities'
 
 export const PostgresDataSource = new DataSource({
   type: 'postgres',
@@ -11,7 +12,7 @@ export const PostgresDataSource = new DataSource({
   database: process.env.DB_NAME,
   synchronize: true,
   logging: false,
-  entities: ['@/infra/db/typeorm/entities/*.{ts,js}'],
+  entities: [Restaurant, LogError],
   migrations: ['@/infra/db/typeorm/migrations/*.{ts,js}'],
   migrationsRun: true,
   subscribers: []
