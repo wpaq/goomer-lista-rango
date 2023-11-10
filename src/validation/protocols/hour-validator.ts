@@ -1,3 +1,3 @@
 export interface HourValidator {
-  isHour: (hour: string) => boolean
+  isValid: (hour: string) => boolean
 }

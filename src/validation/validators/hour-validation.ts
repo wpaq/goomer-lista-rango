@@ -9,7 +9,7 @@ export class HourValidation implements Validation {
   ) {}
 
   validate (input: any): Error | null {
-    const isValid = this.hourValidator.isHour(input[this.fieldName])
+    const isValid = this.hourValidator.isValid(input[this.fieldName])
     if (!isValid) {
       return new InvalidParamError(this.fieldName)
     }

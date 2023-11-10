@@ -4,7 +4,7 @@ export class HourValidatorSpy implements HourValidator {
   isHourValid = true
   hour: string
 
-  isHour (hour: string): boolean {
+  isValid (hour: string): boolean {
     this.hour = hour
     return this.isHourValid
   }
