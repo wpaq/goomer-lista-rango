@@ -11,8 +11,8 @@ export const PostgresDataSource = new DataSource({
   database: process.env.DB_NAME,
   synchronize: true,
   logging: false,
-  entities: ['../entities/*.{ts,js}'],
-  migrations: ['../migrations/*.{ts,js}'],
+  entities: ['@/infra/db/typeorm/entities/*.{ts,js}'],
+  migrations: ['@/infra/db/typeorm/migrations/*.{ts,js}'],
   migrationsRun: true,
   subscribers: []
 })
