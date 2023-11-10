@@ -1,9 +1,38 @@
-name: Continuous Integration
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push, pull_request]
+name: Deploy
+
+on: 
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
 jobs:
-  continuous-integration:
+  build:
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with: 
+          node-version: 18.x
+      - name: Install dependencies
+        run: npm install  
+      - name: Building project
+        run: npm run build     
+
+  development:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15.x
+        env:
+          POSTGRES_USER: typeorm
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: goomer-lista-rango-test
+        ports: 
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
       - uses: actions/checkout@v4
@@ -11,10 +40,5 @@ jobs:
         uses: actions/setup-node@v3
         with: 
           node-version: 18.x
-      - name: Run install
-        run: npm install  
-      - name: Building project
-        run: npm run build
-      - name: Testing project
-        run: npm run test:ci
-      
+      - name: Testing
+        run: npm run test:server
