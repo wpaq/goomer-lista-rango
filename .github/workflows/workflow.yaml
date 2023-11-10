@@ -25,7 +25,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:15.x
+        image: postgres
         env:
           POSTGRES_USER: typeorm
           POSTGRES_PASSWORD: password
