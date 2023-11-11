@@ -22,8 +22,12 @@ jobs:
 
   development:
     runs-on: ubuntu-latest
-
     needs: build
+    container:
+      image: ghcr.io/owner/image
+      credentials:
+       username: ${{ github.actor }}
+       password: ${{ secrets.github_token }}
 
     services:
       postgres:
