@@ -18,7 +18,7 @@ export const TypeormDataSource = new DataSource({
   synchronize: true,
   logging: false,
   entities: [Restaurant, LogError],
-  migrations: ['../migrations/*.{ts,js}'],
+  migrations: ['src/infra/db/typeorm/migrations/*.{ts,js}'],
   migrationsRun: true,
   subscribers: []
 })
