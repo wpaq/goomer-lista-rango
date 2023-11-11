@@ -14,8 +14,8 @@ jobs:
         image: postgres:latest
         
         env:
-          POSTGRES_USER: typeorm
-          POSTGRES_PASSWORD: password
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: admin
           POSTGRES_DB: goomer-lista-rango-test
         ports: 
           - 5432:5432
