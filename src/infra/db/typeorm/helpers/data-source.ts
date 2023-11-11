@@ -1,9 +1,8 @@
-import 'module-alias/register'
 import 'dotenv/config'
 import 'reflect-metadata'
 import { DataSource } from 'typeorm'
 
-import { LogError, Restaurant } from '@/infra/db/typeorm/entities'
+import { LogError, Restaurant } from '../entities'
 
 if (process.env.NODE_ENV === 'development') {
   process.env.DATABASE_URL = 'postgres://typeorm:password@localhost:5432/goomer-lista-rango'
@@ -19,7 +18,7 @@ export const TypeormDataSource = new DataSource({
   synchronize: true,
   logging: false,
   entities: [Restaurant, LogError],
-  migrations: ['@/infra/db/typeorm/migrations/*.{ts,js}'],
+  migrations: ['../migrations/*.{ts,js}'],
   migrationsRun: true,
   subscribers: []
 })
