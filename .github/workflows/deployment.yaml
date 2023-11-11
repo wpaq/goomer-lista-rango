@@ -1,0 +1,53 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master, development]
+
+jobs:
+  test-ci:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci
+    - run: npm run test
+    
+  deploy-test:
+    needs: test-ci
+    if: github.ref == 'refs/heads/development'
+    runs-on: ubuntu-latest
+    concurrency: deploy-to-test
+    environment: test
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 10.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+      - run: docker build -t setup-nodejs .
+      - run: echo "Deploy"
+
+  deploy-production:
+    needs: test-ci
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    concurrency: deploy-to-production
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+      - run: docker build -t setup-nodejs .
+      - run: echo "Deploy"
