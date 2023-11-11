@@ -13,6 +13,18 @@ jobs:
       matrix:
         node-version: [16.x, 18.x]
 
+    services:
+      postgres:
+        image: postgres:latest
+        
+        env:
+          POSTGRES_USER: typeorm
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: goomer-lista-rango-test
+        ports: 
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
@@ -20,8 +32,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
-    - run: npm run test
-    
+    - run: npm run test:server
+
   deploy-test:
     needs: test-ci
     if: github.ref == 'refs/heads/development'
@@ -29,11 +41,11 @@ jobs:
     concurrency: deploy-to-test
     environment: test
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js 10.x
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          node-version: 18.x
       - run: docker build -t setup-nodejs .
       - run: echo "Deploy"
 
