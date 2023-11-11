@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container: node:18.x
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js
@@ -26,7 +27,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:latest
+        image: postgres:15
         env:
           POSTGRES_USER: typeorm
           POSTGRES_PASSWORD: password
