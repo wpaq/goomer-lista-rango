@@ -11,6 +11,11 @@ export const mockRestaurantModel = (): RestaurantModel => ({
   openingHours: faker.string.numeric(2)
 })
 
+export const mockRestaurantsModel = (): RestaurantModel[] => [
+  mockRestaurantModel(),
+  mockRestaurantModel()
+]
+
 export const mockAddRestaurantParams = (): AddRestaurantParams => ({
   photo: faker.image.url(),
   name: faker.person.fullName(),
