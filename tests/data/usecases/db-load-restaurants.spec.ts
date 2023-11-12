@@ -22,4 +22,11 @@ describe('DbLoadRestaurants', () => {
     const restaurants = await sut.load()
     expect(restaurants).toEqual(loadRestaurantsRepositorySpy.result)
   })
+
+  test('Should throw if LoadRestaurantsRepository throws', async () => {
+    const { sut, loadRestaurantsRepositorySpy } = makeSut()
+    jest.spyOn(loadRestaurantsRepositorySpy, 'loadAll').mockRejectedValueOnce(new Error())
+    const promise = sut.load()
+    await expect(promise).rejects.toThrow()
+  })
 })
