@@ -1,9 +1,10 @@
+import { type AddRestaurantRepository } from '@/data/protocols'
 import { type RestaurantModel } from '@/domain/models'
-import { type AddRestaurant, type AddRestaurantParams } from '@/domain/usecases'
+import { type AddRestaurantParams } from '@/domain/usecases'
 import { Restaurant } from '@/infra/db/typeorm/entities'
 import { TypeormHelper } from '@/infra/db/typeorm/helpers'
 
-export class RestaurantTypeormRepository implements AddRestaurant {
+export class RestaurantTypeormRepository implements AddRestaurantRepository {
   async add (data: AddRestaurantParams): Promise<boolean | RestaurantModel> {
     const { photo, name, address, openingHours } = data
     const restaurantRepository = TypeormHelper.client.getRepository(Restaurant)
