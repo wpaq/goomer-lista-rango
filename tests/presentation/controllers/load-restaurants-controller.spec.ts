@@ -2,7 +2,7 @@ import { LoadRestaurantsSpy } from '@/tests/presentation/mocks'
 
 import { LoadRestaurantsController } from '@/presentation/controllers'
 import { type HttpRequest } from '@/presentation/protocols'
-import { ok, serverError } from '@/presentation/helpers'
+import { noContent, ok, serverError } from '@/presentation/helpers'
 
 import { faker } from '@faker-js/faker'
 
@@ -47,5 +47,12 @@ describe('LoadRestaurants Controller', () => {
     const { sut, loadRestaurantsSpy } = makeSut()
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(ok(loadRestaurantsSpy.result))
+  })
+
+  test('Should return 204 if LoadRestaurants returns empty', async () => {
+    const { sut, loadRestaurantsSpy } = makeSut()
+    loadRestaurantsSpy.result = []
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual(noContent())
   })
 })
