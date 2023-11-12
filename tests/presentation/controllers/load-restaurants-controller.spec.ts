@@ -1,7 +1,8 @@
 import { LoadRestaurantsSpy } from '@/tests/presentation/mocks'
 
-import { type HttpRequest } from '@/presentation/protocols'
 import { LoadRestaurantsController } from '@/presentation/controllers'
+import { type HttpRequest } from '@/presentation/protocols'
+import { serverError } from '@/presentation/helpers'
 
 import { faker } from '@faker-js/faker'
 
@@ -33,5 +34,12 @@ describe('LoadRestaurants Controller', () => {
     const { sut, loadRestaurantsSpy } = makeSut()
     const httpResponse = await sut.handle(mockRequest())
     expect(loadRestaurantsSpy.result).toEqual(httpResponse.body)
+  })
+
+  test('Should return 500 if LoadRestaurants throws', async () => {
+    const { sut, loadRestaurantsSpy } = makeSut()
+    jest.spyOn(loadRestaurantsSpy, 'load').mockRejectedValueOnce(new Error())
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 })
