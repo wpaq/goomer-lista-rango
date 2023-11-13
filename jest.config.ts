@@ -19,7 +19,8 @@ const config: Config = {
   coveragePathIgnorePatterns: [
     '<rootDir>/src/main/',
     '<rootDir>/tests/',
-    '<rootDir>/src/infra/db/typeorm/migrations/'
+    '<rootDir>/src/infra/db/typeorm/migrations/',
+    '<rootDir>/src/infra/db/typeorm/helpers/'
   ]
 }
 
