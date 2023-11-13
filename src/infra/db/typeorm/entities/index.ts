@@ -1,2 +1,2 @@
-export * from './Restaurant'
-export * from './LogError'
+export * from './restaurant-entity'
+export * from './log-error-entity'
