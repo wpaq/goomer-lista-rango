@@ -37,4 +37,10 @@ describe('DbLoadRestaurantById', () => {
     const response = sut.load(restaurantId)
     await expect(response).rejects.toThrow()
   })
+
+  test('Should return an restaurant on success', async () => {
+    const { sut, loadRestaurantByIdRepositorySpy } = makeSut()
+    const result = await sut.load(restaurantId)
+    expect(result).toEqual(loadRestaurantByIdRepositorySpy.result)
+  })
 })
