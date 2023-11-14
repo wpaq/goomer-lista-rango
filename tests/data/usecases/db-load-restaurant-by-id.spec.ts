@@ -30,4 +30,11 @@ describe('DbLoadRestaurantById', () => {
     await sut.load(restaurantId)
     expect(loadRestaurantByIdRepositorySpy.id).toBe(restaurantId)
   })
+
+  test('Should throw if LoadRestaurantByIdRepository throws', async () => {
+    const { sut, loadRestaurantByIdRepositorySpy } = makeSut()
+    jest.spyOn(loadRestaurantByIdRepositorySpy, 'loadById').mockRejectedValueOnce(new Error())
+    const response = sut.load(restaurantId)
+    await expect(response).rejects.toThrow()
+  })
 })
