@@ -1,10 +1,10 @@
-import { type LoadRestaurantsRepository, type AddRestaurantRepository, type LoadRestaurantByIdRepository } from '@/data/protocols'
+import { type LoadRestaurantsRepository, type AddRestaurantRepository, type LoadRestaurantByIdRepository, type CheckRestaurantByIdRepository } from '@/data/protocols'
 import { type RestaurantModel } from '@/domain/models'
 import { type AddRestaurantParams } from '@/domain/usecases'
 import { Restaurant } from '@/infra/db/typeorm/entities'
 import { TypeormHelper } from '@/infra/db/typeorm/helpers'
 
-export class RestaurantTypeormRepository implements AddRestaurantRepository, LoadRestaurantsRepository, LoadRestaurantByIdRepository {
+export class RestaurantTypeormRepository implements AddRestaurantRepository, LoadRestaurantsRepository, LoadRestaurantByIdRepository, CheckRestaurantByIdRepository {
   async add (data: AddRestaurantParams): Promise<boolean | RestaurantModel> {
     const { photo, name, address, openingHours } = data
     const restaurantRepository = TypeormHelper.client.getRepository(Restaurant)
@@ -27,5 +27,13 @@ export class RestaurantTypeormRepository implements AddRestaurantRepository, Loa
     return await restaurantRepository.findOne({
       where: { id }
     }) as RestaurantModel
+  }
+
+  async checkById (id: string): Promise<boolean> {
+    const restaurantRepository = TypeormHelper.client.getRepository(Restaurant)
+    const restaurant = await restaurantRepository.findOne({
+      where: { id }
+    })
+    return restaurant !== null
   }
 }
