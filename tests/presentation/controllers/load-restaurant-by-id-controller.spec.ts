@@ -1,4 +1,4 @@
-import { CheckRestaurantByIdSpy } from '@/tests/presentation/mocks'
+import { CheckRestaurantByIdSpy, LoadRestaurantByIdSpy } from '@/tests/presentation/mocks'
 
 import { LoadRestaurantByIdController } from '@/presentation/controllers'
 import { type HttpRequest } from '@/presentation/protocols'
@@ -16,14 +16,17 @@ const mockRequest = (): HttpRequest => ({
 type SutTypes = {
   sut: LoadRestaurantByIdController
   checkRestaurantByIdSpy: CheckRestaurantByIdSpy
+  loadRestaurantByIdSpy: LoadRestaurantByIdSpy
 }
 
 const makeSut = (): SutTypes => {
   const checkRestaurantByIdSpy = new CheckRestaurantByIdSpy()
-  const sut = new LoadRestaurantByIdController(checkRestaurantByIdSpy)
+  const loadRestaurantByIdSpy = new LoadRestaurantByIdSpy()
+  const sut = new LoadRestaurantByIdController(checkRestaurantByIdSpy, loadRestaurantByIdSpy)
   return {
     sut,
-    checkRestaurantByIdSpy
+    checkRestaurantByIdSpy,
+    loadRestaurantByIdSpy
   }
 }
 
@@ -47,5 +50,12 @@ describe('LoadRestaurantById Controller', () => {
     jest.spyOn(checkRestaurantByIdSpy, 'checkById').mockRejectedValueOnce(new Error())
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('Should call LoadRestaurantById with correct id', async () => {
+    const { sut, loadRestaurantByIdSpy } = makeSut()
+    const request = mockRequest()
+    await sut.handle(request)
+    expect(loadRestaurantByIdSpy.id).toEqual(request.params.restaurantId)
   })
 })
