@@ -58,4 +58,11 @@ describe('LoadRestaurantById Controller', () => {
     await sut.handle(request)
     expect(loadRestaurantByIdSpy.id).toEqual(request.params.restaurantId)
   })
+
+  test('Should return 500 if LoadRestaurantById throws', async () => {
+    const { sut, loadRestaurantByIdSpy } = makeSut()
+    jest.spyOn(loadRestaurantByIdSpy, 'load').mockRejectedValueOnce(new Error())
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual(serverError(new Error()))
+  })
 })
