@@ -3,7 +3,7 @@ import { CheckRestaurantByIdSpy, LoadRestaurantByIdSpy } from '@/tests/presentat
 import { LoadRestaurantByIdController } from '@/presentation/controllers'
 import { type HttpRequest } from '@/presentation/protocols'
 import { InvalidParamError } from '@/presentation/errors'
-import { forbidden, serverError } from '@/presentation/helpers'
+import { forbidden, ok, serverError } from '@/presentation/helpers'
 
 import { faker } from '@faker-js/faker'
 
@@ -64,5 +64,11 @@ describe('LoadRestaurantById Controller', () => {
     jest.spyOn(loadRestaurantByIdSpy, 'load').mockRejectedValueOnce(new Error())
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('Should return 200 on success', async () => {
+    const { sut, loadRestaurantByIdSpy } = makeSut()
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual(ok(loadRestaurantByIdSpy.result))
   })
 })
