@@ -2,6 +2,7 @@ import { mockAddRestaurantParams } from '@/tests/domain/mocks'
 
 import { RestaurantTypeormRepository, TypeormHelper } from '@/infra/db/typeorm'
 import { Restaurant } from '@/infra/db/typeorm/entities'
+import { faker } from '@faker-js/faker'
 
 let restaurantRepository
 
@@ -73,6 +74,12 @@ describe('RestaurantTypeormRepository', () => {
       const sut = makeSut()
       const exists = await sut.checkById(result.id)
       expect(exists).toBe(true)
+    })
+
+    test('Should return false if restaurant not exists', async () => {
+      const sut = makeSut()
+      const exists = await sut.checkById(faker.string.uuid())
+      expect(exists).toBeFalsy()
     })
   })
 })
