@@ -1,6 +1,6 @@
 import { mockRestaurantModel, mockRestaurantsModel } from '@/tests/domain/mocks'
 
-import { type LoadRestaurantsRepository, type AddRestaurantRepository, type LoadRestaurantByIdRepository } from '@/data/protocols'
+import { type LoadRestaurantsRepository, type AddRestaurantRepository, type LoadRestaurantByIdRepository, type CheckRestaurantByIdRepository } from '@/data/protocols'
 import { type RestaurantModel } from '@/domain/models'
 import { type AddRestaurantParams } from '@/domain/usecases'
 
@@ -18,6 +18,16 @@ export class LoadRestaurantsRepositorySpy implements LoadRestaurantsRepository {
   result = mockRestaurantsModel()
 
   async loadAll (): Promise<RestaurantModel[]> {
+    return this.result
+  }
+}
+
+export class CheckRestaurantByIdRepositorySpy implements CheckRestaurantByIdRepository {
+  result: boolean = true
+  id: string
+
+  async checkById (id: string): Promise<boolean> {
+    this.id = id
     return this.result
   }
 }
