@@ -49,6 +49,12 @@ describe('RestaurantTypeormRepository', () => {
       expect(restaurants[1].name).toBe(addRestaurantsParams[1].name)
       expect(restaurants[1].photo).toBe(addRestaurantsParams[1].photo)
     })
+
+    test('Should load empty list', async () => {
+      const sut = makeSut()
+      const restaurants = await sut.loadAll()
+      expect(restaurants.length).toBe(0)
+    })
   })
 
   describe('loadById()', () => {
