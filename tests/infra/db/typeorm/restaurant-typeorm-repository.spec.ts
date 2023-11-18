@@ -63,4 +63,16 @@ describe('RestaurantTypeormRepository', () => {
       expect(restaurant.photo).toBe(addRestaurantsParams.photo)
     })
   })
+
+  describe('checkById()', () => {
+    test('Should return true on success', async () => {
+      const addRestaurantParams = mockAddRestaurantParams()
+      const addRestaurant = restaurantRepository.create(addRestaurantParams)
+      const result = await restaurantRepository.insert(addRestaurant)
+
+      const sut = makeSut()
+      const exists = await sut.checkById(result.id)
+      expect(exists).toBe(true)
+    })
+  })
 })
