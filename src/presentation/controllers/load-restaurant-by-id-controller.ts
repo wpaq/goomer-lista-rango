@@ -15,8 +15,8 @@ export class LoadRestaurantByIdController implements Controller {
       if (!exists) {
         return forbidden(new InvalidParamError('restaurantId'))
       }
-      await this.loadRestaurantById.load(httpRequest.params.restaurantId)
-      return ok('')
+      const restaurant = await this.loadRestaurantById.load(httpRequest.params.restaurantId)
+      return ok(restaurant)
     } catch (error) {
       return serverError(error)
     }
