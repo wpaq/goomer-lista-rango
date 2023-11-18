@@ -63,6 +63,12 @@ describe('RestaurantTypeormRepository', () => {
       expect(restaurant.name).toBe(addRestaurantsParams.name)
       expect(restaurant.photo).toBe(addRestaurantsParams.photo)
     })
+
+    test('Should return null if restaurant does not exists', async () => {
+      const sut = makeSut()
+      const restaurant = await sut.loadById(faker.string.uuid())
+      expect(restaurant).toBeFalsy()
+    })
   })
 
   describe('checkById()', () => {
