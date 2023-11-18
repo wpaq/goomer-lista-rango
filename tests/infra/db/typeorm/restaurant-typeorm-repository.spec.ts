@@ -66,14 +66,14 @@ describe('RestaurantTypeormRepository', () => {
   })
 
   describe('checkById()', () => {
-    test('Should return true on success', async () => {
+    test('Should return true if restaurant exists', async () => {
       const addRestaurantParams = mockAddRestaurantParams()
       const addRestaurant = restaurantRepository.create(addRestaurantParams)
       const result = await restaurantRepository.insert(addRestaurant)
 
       const sut = makeSut()
       const exists = await sut.checkById(result.id)
-      expect(exists).toBe(true)
+      expect(exists).toBeTruthy()
     })
 
     test('Should return false if restaurant not exists', async () => {
