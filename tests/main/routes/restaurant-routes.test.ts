@@ -73,4 +73,13 @@ describe('Restaurant Routes', () => {
         .expect(200)
     })
   })
+
+  describe('GET /restaurant/:restaurantId', () => {
+    test('should return 200 on load restaurant with id', async () => {
+      const res = await restaurantRepository.insert(mockAddRestaurantParams())
+      await request(app)
+        .get(`/api/restaurant/${res.raw[0].id}`)
+        .expect(200)
+    })
+  })
 })
