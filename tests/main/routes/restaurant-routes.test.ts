@@ -44,5 +44,17 @@ describe('Restaurant Routes', () => {
         })
         .expect(400)
     })
+
+    test('should return 400 if openingHours is invalid', async () => {
+      await request(app)
+        .post('/api/restaurant')
+        .send({
+          photo: 'http://www.photo_1.com',
+          name: 'Wallyson',
+          address: 'Street Test',
+          openingHours: 'invalid_hours'
+        })
+        .expect(400)
+    })
   })
 })
