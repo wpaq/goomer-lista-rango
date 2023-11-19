@@ -21,7 +21,7 @@ describe('Restaurant Routes', () => {
   })
 
   describe('POST /restaurant', () => {
-    test('should return an restaurant on success', async () => {
+    test('should return 200 on success', async () => {
       await request(app)
         .post('/api/restaurant')
         .send({
@@ -31,6 +31,18 @@ describe('Restaurant Routes', () => {
           openingHours: '07:00'
         })
         .expect(200)
+    })
+
+    test('should return 400 if any field is not provided', async () => {
+      await request(app)
+        .post('/api/restaurant')
+        .send({
+          // photo: 'http://www.photo_1.com',
+          name: 'Wallyson',
+          address: 'Street Test',
+          openingHours: '07:00'
+        })
+        .expect(400)
     })
   })
 })
