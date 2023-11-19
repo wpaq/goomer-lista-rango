@@ -3,6 +3,7 @@ import { TypeormHelper } from '@/infra/db/typeorm'
 import { Restaurant } from '@/infra/db/typeorm/entities'
 
 import request from 'supertest'
+import { mockAddRestaurantParams } from '@/tests/domain/mocks'
 
 let restaurantRepository
 
@@ -63,6 +64,13 @@ describe('Restaurant Routes', () => {
       await request(app)
         .get('/api/restaurant')
         .expect(204)
+    })
+
+    test('should return 200 on success', async () => {
+      await restaurantRepository.insert(mockAddRestaurantParams())
+      await request(app)
+        .get('/api/restaurant')
+        .expect(200)
     })
   })
 })
