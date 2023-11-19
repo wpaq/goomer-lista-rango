@@ -30,4 +30,11 @@ describe('DbUpdateRestaurant', () => {
     await sut.update(restaurantId)
     expect(updateRestaurantRepositorySpy.id).toBe(restaurantId)
   })
+
+  test('Should throw if UpdateRestaurantRepository throws', async () => {
+    const { sut, updateRestaurantRepositorySpy } = makeSut()
+    jest.spyOn(updateRestaurantRepositorySpy, 'update').mockRejectedValueOnce(new Error())
+    const response = sut.update(restaurantId)
+    await expect(response).rejects.toThrow()
+  })
 })
