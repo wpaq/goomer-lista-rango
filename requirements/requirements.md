@@ -1,8 +1,8 @@
 # Desafio, a API deverá ser capaz de:
 
-❌ Listar todos os restaurantes
+✅ Listar todos os restaurantes
 ✅ Cadastrar novos restaurantes
-❌ Listar os dados de um restaurante
+✅ Listar os dados de um restaurante
 ❌ Alterar os dados um restaurante
 ❌ Excluir um restaurante
 ❌ Listar todos os produtos de um restaurante
