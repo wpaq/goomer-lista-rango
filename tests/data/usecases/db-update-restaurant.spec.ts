@@ -37,4 +37,10 @@ describe('DbUpdateRestaurant', () => {
     const response = sut.update(restaurantId)
     await expect(response).rejects.toThrow()
   })
+
+  test('Should return an restaurant on success', async () => {
+    const { sut, updateRestaurantRepositorySpy } = makeSut()
+    const result = await sut.update(restaurantId)
+    expect(result).toEqual(updateRestaurantRepositorySpy.result)
+  })
 })
