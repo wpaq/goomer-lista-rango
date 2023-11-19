@@ -6,5 +6,5 @@ import { type Router } from 'express'
 export default (router: Router): void => {
   router.post('/restaurant', adaptRoute(makeAddRestaurantController()))
   router.get('/restaurant', adaptRoute(makeLoadRestaurantsController()))
-  router.get('/restaurant/:id', adaptRoute(makeLoadRestaurantByIdController()))
+  router.get('/restaurant/:restaurantId', adaptRoute(makeLoadRestaurantByIdController()))
 }
