@@ -57,4 +57,12 @@ describe('Restaurant Routes', () => {
         .expect(400)
     })
   })
+
+  describe('GET /restaurant', () => {
+    test('should return 204 if returns empty', async () => {
+      await request(app)
+        .get('/api/restaurant')
+        .expect(204)
+    })
+  })
 })
