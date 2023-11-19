@@ -11,11 +11,12 @@ export class LoadRestaurantByIdController implements Controller {
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const exists = await this.checkRestaurantById.checkById(httpRequest.params.restaurantId)
+      const { restaurantId } = httpRequest.params
+      const exists = await this.checkRestaurantById.checkById(restaurantId)
       if (!exists) {
         return forbidden(new InvalidParamError('restaurantId'))
       }
-      const restaurant = await this.loadRestaurantById.load(httpRequest.params.restaurantId)
+      const restaurant = await this.loadRestaurantById.load(restaurantId)
       return ok(restaurant)
     } catch (error) {
       return serverError(error)
