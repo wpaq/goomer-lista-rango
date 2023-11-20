@@ -1,4 +1,4 @@
-import { UpdateRestaurantSpy } from '@/tests/presentation/mocks'
+import { CheckRestaurantByIdSpy, UpdateRestaurantSpy } from '@/tests/presentation/mocks'
 
 import { type HttpRequest } from '@/presentation/protocols'
 import { UpdateRestaurantController } from '@/presentation/controllers'
@@ -19,19 +19,29 @@ const mockRequest = (): HttpRequest => ({
 
 type SutTypes = {
   sut: UpdateRestaurantController
+  checkRestaurantByIdSpy: CheckRestaurantByIdSpy
   updateRestaurantSpy: UpdateRestaurantSpy
 }
 
 const makeSut = (): SutTypes => {
+  const checkRestaurantByIdSpy = new CheckRestaurantByIdSpy()
   const updateRestaurantSpy = new UpdateRestaurantSpy()
-  const sut = new UpdateRestaurantController(updateRestaurantSpy)
+  const sut = new UpdateRestaurantController(checkRestaurantByIdSpy, updateRestaurantSpy)
   return {
     sut,
+    checkRestaurantByIdSpy,
     updateRestaurantSpy
   }
 }
 
 describe('UpdateRestaurant Controller', () => {
+  test('Should call CheckRestaurantById with correct id', async () => {
+    const { sut, checkRestaurantByIdSpy } = makeSut()
+    const request = mockRequest()
+    await sut.handle(request)
+    expect(checkRestaurantByIdSpy.id).toEqual(request.params.restaurantId)
+  })
+
   test('Should call UpdateRestaurant with correct values', async () => {
     const { sut, updateRestaurantSpy } = makeSut()
     const request = mockRequest()
