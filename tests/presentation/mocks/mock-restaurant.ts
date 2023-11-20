@@ -1,5 +1,5 @@
 import { type RestaurantModel } from '@/domain/models'
-import { type LoadRestaurants, type AddRestaurant, type AddRestaurantParams, type LoadRestaurantById, type CheckRestaurantById } from '@/domain/usecases'
+import { type LoadRestaurants, type AddRestaurant, type AddRestaurantParams, type LoadRestaurantById, type CheckRestaurantById, type UpdateRestaurant, type UpdateRestaurantParams } from '@/domain/usecases'
 import { mockRestaurantModel, mockRestaurantsModel } from '@/tests/domain/mocks'
 
 export class AddRestaurantSpy implements AddRestaurant {
@@ -36,6 +36,18 @@ export class LoadRestaurantByIdSpy implements LoadRestaurantById {
 
   async load (id: string): Promise<RestaurantModel> {
     this.id = id
+    return this.result
+  }
+}
+
+export class UpdateRestaurantSpy implements UpdateRestaurant {
+  id: string
+  updateRestaurantParams: UpdateRestaurantParams
+  result: RestaurantModel = mockRestaurantModel()
+
+  async update (id: string, data: UpdateRestaurantParams): Promise<RestaurantModel> {
+    this.id = id
+    this.updateRestaurantParams = data
     return this.result
   }
 }
