@@ -1,4 +1,4 @@
-import { mockAddRestaurantParams } from '@/tests/domain/mocks'
+import { mockAddRestaurantParams, mockUpdateRestaurantParams } from '@/tests/domain/mocks'
 
 import { RestaurantTypeormRepository, TypeormHelper } from '@/infra/db/typeorm'
 import { Restaurant } from '@/infra/db/typeorm/entities'
@@ -92,6 +92,18 @@ describe('RestaurantTypeormRepository', () => {
       const sut = makeSut()
       const exists = await sut.checkById(faker.string.uuid())
       expect(exists).toBeFalsy()
+    })
+  })
+
+  describe('update()', () => {
+    test('Should return an restaurant on success', async () => {
+      const updateRestaurantParams = mockUpdateRestaurantParams()
+      const result = await restaurantRepository.insert(updateRestaurantParams)
+      const sut = makeSut()
+      const updatedRestaurant = await sut.update(result.raw[0].id, updateRestaurantParams)
+
+      expect(updatedRestaurant.id).toBeTruthy()
+      expect(updatedRestaurant.photo).toBe(updateRestaurantParams.photo)
     })
   })
 })
