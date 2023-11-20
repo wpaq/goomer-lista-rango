@@ -1,9 +1,11 @@
+import { mockAddRestaurantParams } from '@/tests/domain/mocks'
+
 import app from '@/main/config/app'
 import { TypeormHelper } from '@/infra/db/typeorm'
 import { Restaurant } from '@/infra/db/typeorm/entities'
 
 import request from 'supertest'
-import { mockAddRestaurantParams } from '@/tests/domain/mocks'
+import { faker } from '@faker-js/faker'
 
 let restaurantRepository
 
@@ -95,6 +97,18 @@ describe('Restaurant Routes', () => {
           openingHours: '07:00'
         })
         .expect(200)
+    })
+
+    test('should return 403 if invalid id is provided', async () => {
+      await request(app)
+        .put(`/api/restaurant/${faker.string.uuid()}`)
+        .send({
+          photo: 'http://www.photo_1.com',
+          name: 'Wallyson',
+          address: 'Street Test',
+          openingHours: '07:00'
+        })
+        .expect(403)
     })
   })
 })
