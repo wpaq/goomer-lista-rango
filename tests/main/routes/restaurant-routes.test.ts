@@ -83,6 +83,12 @@ describe('Restaurant Routes', () => {
         .get(`/api/restaurant/${res.raw[0].id}`)
         .expect(200)
     })
+
+    test('should return 403 if invalid id is provided', async () => {
+      await request(app)
+        .get(`/api/restaurant/${faker.string.uuid()}`)
+        .expect(403)
+    })
   })
 
   describe('PUT /restaurant/:restaurantId', () => {
