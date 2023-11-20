@@ -1,5 +1,5 @@
 import { type RestaurantModel } from '@/domain/models'
-import { type AddRestaurantParams } from '@/domain/usecases'
+import { type UpdateRestaurantParams, type AddRestaurantParams } from '@/domain/usecases'
 
 import { faker } from '@faker-js/faker'
 
@@ -17,6 +17,13 @@ export const mockRestaurantsModel = (): RestaurantModel[] => [
 ]
 
 export const mockAddRestaurantParams = (): AddRestaurantParams => ({
+  photo: faker.image.url(),
+  name: faker.person.fullName(),
+  address: faker.location.streetAddress(),
+  openingHours: faker.string.numeric(2)
+})
+
+export const mockUpdateRestaurantParams = (): UpdateRestaurantParams => ({
   photo: faker.image.url(),
   name: faker.person.fullName(),
   address: faker.location.streetAddress(),

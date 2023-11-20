@@ -1,7 +1,7 @@
 import { UpdateRestaurantRepositorySpy } from '@/tests/data/mocks'
+import { mockUpdateRestaurantParams } from '@/tests/domain/mocks'
 
 import { DbUpdateRestaurant } from '@/data/usecases'
-
 import { faker } from '@faker-js/faker'
 
 type SutTypes = {
@@ -18,29 +18,24 @@ const makeSut = (): SutTypes => {
   }
 }
 
-let restaurantId: string
-
 describe('DbUpdateRestaurant', () => {
-  beforeEach(() => {
-    restaurantId = faker.string.uuid()
-  })
-
-  test('Should call UpdateRestaurantRepository with correct id', async () => {
+  test('Should call UpdateRestaurantRepository with correct values', async () => {
     const { sut, updateRestaurantRepositorySpy } = makeSut()
-    await sut.update(restaurantId)
-    expect(updateRestaurantRepositorySpy.id).toBe(restaurantId)
+    const updateRestaurantParams = mockUpdateRestaurantParams()
+    await sut.update(faker.string.uuid(), updateRestaurantParams)
+    expect(updateRestaurantRepositorySpy.updateRestaurantParams).toEqual(updateRestaurantParams)
   })
 
   test('Should throw if UpdateRestaurantRepository throws', async () => {
     const { sut, updateRestaurantRepositorySpy } = makeSut()
     jest.spyOn(updateRestaurantRepositorySpy, 'update').mockRejectedValueOnce(new Error())
-    const response = sut.update(restaurantId)
+    const response = sut.update(faker.string.uuid(), mockUpdateRestaurantParams())
     await expect(response).rejects.toThrow()
   })
 
   test('Should return an restaurant on success', async () => {
     const { sut, updateRestaurantRepositorySpy } = makeSut()
-    const result = await sut.update(restaurantId)
+    const result = await sut.update(faker.string.uuid(), mockUpdateRestaurantParams())
     expect(result).toEqual(updateRestaurantRepositorySpy.result)
   })
 })
