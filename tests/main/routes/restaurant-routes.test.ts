@@ -82,4 +82,19 @@ describe('Restaurant Routes', () => {
         .expect(200)
     })
   })
+
+  describe('PUT /restaurant/:restaurantId', () => {
+    test('should return 200 on success', async () => {
+      const res = await restaurantRepository.insert(mockAddRestaurantParams())
+      await request(app)
+        .put(`/api/restaurant/${res.raw[0].id}`)
+        .send({
+          photo: 'http://www.photo_1.com',
+          name: 'Wallyson',
+          address: 'Street Test',
+          openingHours: '07:00'
+        })
+        .expect(200)
+    })
+  })
 })
