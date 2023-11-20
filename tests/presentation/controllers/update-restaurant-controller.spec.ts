@@ -2,6 +2,8 @@ import { CheckRestaurantByIdSpy, UpdateRestaurantSpy } from '@/tests/presentatio
 
 import { type HttpRequest } from '@/presentation/protocols'
 import { UpdateRestaurantController } from '@/presentation/controllers'
+import { InvalidParamError } from '@/presentation/errors'
+import { forbidden } from '@/presentation/helpers'
 
 import { faker } from '@faker-js/faker'
 
@@ -40,6 +42,13 @@ describe('UpdateRestaurant Controller', () => {
     const request = mockRequest()
     await sut.handle(request)
     expect(checkRestaurantByIdSpy.id).toEqual(request.params.restaurantId)
+  })
+
+  test('Should return 403 if CheckRestaurantById returns false', async () => {
+    const { sut, checkRestaurantByIdSpy } = makeSut()
+    checkRestaurantByIdSpy.result = false
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual(forbidden(new InvalidParamError('id')))
   })
 
   test('Should call UpdateRestaurant with correct values', async () => {
