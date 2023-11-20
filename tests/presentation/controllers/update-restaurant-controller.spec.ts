@@ -3,7 +3,7 @@ import { CheckRestaurantByIdSpy, UpdateRestaurantSpy } from '@/tests/presentatio
 import { type HttpRequest } from '@/presentation/protocols'
 import { UpdateRestaurantController } from '@/presentation/controllers'
 import { InvalidParamError } from '@/presentation/errors'
-import { forbidden } from '@/presentation/helpers'
+import { forbidden, serverError } from '@/presentation/helpers'
 
 import { faker } from '@faker-js/faker'
 
@@ -49,6 +49,13 @@ describe('UpdateRestaurant Controller', () => {
     checkRestaurantByIdSpy.result = false
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(forbidden(new InvalidParamError('id')))
+  })
+
+  test('Should return 500 if CheckRestaurantById throws', async () => {
+    const { sut, checkRestaurantByIdSpy } = makeSut()
+    jest.spyOn(checkRestaurantByIdSpy, 'checkById').mockRejectedValueOnce(new Error())
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 
   test('Should call UpdateRestaurant with correct values', async () => {
