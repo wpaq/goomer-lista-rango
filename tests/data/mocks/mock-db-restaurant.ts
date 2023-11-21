@@ -1,6 +1,13 @@
 import { mockRestaurantModel, mockRestaurantsModel } from '@/tests/domain/mocks'
 
-import { type LoadRestaurantsRepository, type AddRestaurantRepository, type LoadRestaurantByIdRepository, type CheckRestaurantByIdRepository, type UpdateRestaurantRepository } from '@/data/protocols'
+import {
+  type LoadRestaurantsRepository,
+  type AddRestaurantRepository,
+  type LoadRestaurantByIdRepository,
+  type CheckRestaurantByIdRepository,
+  type UpdateRestaurantRepository,
+  type DeleteRestaurantRepository
+} from '@/data/protocols'
 import { type RestaurantModel } from '@/domain/models'
 import { type UpdateRestaurantParams, type AddRestaurantParams } from '@/domain/usecases'
 
@@ -51,5 +58,13 @@ export class UpdateRestaurantRepositorySpy implements UpdateRestaurantRepository
     this.id = id
     this.updateRestaurantParams = data
     return this.result
+  }
+}
+
+export class DeleteRestaurantRepositorySpy implements DeleteRestaurantRepository {
+  id: string
+
+  async delete (id: string): Promise<void> {
+    this.id = id
   }
 }
