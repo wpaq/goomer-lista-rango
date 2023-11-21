@@ -30,4 +30,11 @@ describe('DbDeleteRestaurant', () => {
     await sut.delete(restaurantId)
     expect(deleteRestaurantRepositorySpy.id).toEqual(restaurantId)
   })
+
+  test('Should throw if DeleteRestaurantRepository throws', async () => {
+    const { sut, deleteRestaurantRepositorySpy } = makeSut()
+    jest.spyOn(deleteRestaurantRepositorySpy, 'delete').mockRejectedValueOnce(new Error())
+    const promise = sut.delete(restaurantId)
+    await expect(promise).rejects.toThrow()
+  })
 })
