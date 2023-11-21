@@ -37,4 +37,10 @@ describe('DbDeleteRestaurant', () => {
     const promise = sut.delete(restaurantId)
     await expect(promise).rejects.toThrow()
   })
+
+  test('Should return undefined on success', async () => {
+    const { sut } = makeSut()
+    const promise = sut.delete(restaurantId)
+    await expect(promise).resolves.toBeUndefined()
+  })
 })
