@@ -1,4 +1,4 @@
-import { CheckRestaurantByIdSpy } from '@/tests/presentation/mocks'
+import { CheckRestaurantByIdSpy, DeleteRestaurantSpy } from '@/tests/presentation/mocks'
 
 import { type HttpRequest } from '@/presentation/protocols'
 import { DeleteRestaurantController } from '@/presentation/controllers'
@@ -16,14 +16,17 @@ const mockRequest = (): HttpRequest => ({
 type SutTypes = {
   sut: DeleteRestaurantController
   checkRestaurantByIdSpy: CheckRestaurantByIdSpy
+  deleteRestaurantSpy: DeleteRestaurantSpy
 }
 
 const makeSut = (): SutTypes => {
   const checkRestaurantByIdSpy = new CheckRestaurantByIdSpy()
-  const sut = new DeleteRestaurantController(checkRestaurantByIdSpy)
+  const deleteRestaurantSpy = new DeleteRestaurantSpy()
+  const sut = new DeleteRestaurantController(checkRestaurantByIdSpy, deleteRestaurantSpy)
   return {
     sut,
-    checkRestaurantByIdSpy
+    checkRestaurantByIdSpy,
+    deleteRestaurantSpy
   }
 }
 
@@ -47,5 +50,12 @@ describe('DeleteRestaurant Controller', () => {
     jest.spyOn(checkRestaurantByIdSpy, 'checkById').mockRejectedValueOnce(new Error())
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('Should call DeleteRestaurant with correct id', async () => {
+    const { sut, deleteRestaurantSpy } = makeSut()
+    const request = mockRequest()
+    await sut.handle(request)
+    expect(deleteRestaurantSpy.id).toEqual(request.params.restaurantId)
   })
 })

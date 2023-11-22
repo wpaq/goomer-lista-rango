@@ -1,5 +1,5 @@
 import { type RestaurantModel } from '@/domain/models'
-import { type LoadRestaurants, type AddRestaurant, type AddRestaurantParams, type LoadRestaurantById, type CheckRestaurantById, type UpdateRestaurant, type UpdateRestaurantParams } from '@/domain/usecases'
+import { type LoadRestaurants, type AddRestaurant, type AddRestaurantParams, type LoadRestaurantById, type CheckRestaurantById, type UpdateRestaurant, type UpdateRestaurantParams, type DeleteRestaurant } from '@/domain/usecases'
 import { mockRestaurantModel, mockRestaurantsModel } from '@/tests/domain/mocks'
 
 export class AddRestaurantSpy implements AddRestaurant {
@@ -49,5 +49,13 @@ export class UpdateRestaurantSpy implements UpdateRestaurant {
     this.id = id
     this.updateRestaurantParams = data
     return this.result
+  }
+}
+
+export class DeleteRestaurantSpy implements DeleteRestaurant {
+  id: string
+
+  async delete (id: string): Promise<void> {
+    this.id = id
   }
 }
