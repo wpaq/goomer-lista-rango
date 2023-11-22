@@ -106,4 +106,17 @@ describe('RestaurantTypeormRepository', () => {
       expect(updatedRestaurant.photo).toBe(updateRestaurantParams.photo)
     })
   })
+
+  describe('delete()', () => {
+    test('Should remove an restaurant on success', async () => {
+      const addRestaurantParams = mockAddRestaurantParams()
+      const result = await restaurantRepository.insert(addRestaurantParams)
+      const restaurantId = result.raw[0].id
+
+      const sut = makeSut()
+      await sut.delete(restaurantId)
+      const count = await restaurantRepository.countBy({ id: restaurantId })
+      expect(count).toBe(0)
+    })
+  })
 })
