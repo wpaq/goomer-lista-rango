@@ -4,7 +4,7 @@
 ✅ Cadastrar novos restaurantes
 ✅ Listar os dados de um restaurante
 ✅ Alterar os dados um restaurante
-❌ Excluir um restaurante
+✅ Excluir um restaurante
 ❌ Listar todos os produtos de um restaurante
 ❌ Criar um produto de um restaurante
 ❌ Alterar um produto de um restaurante
