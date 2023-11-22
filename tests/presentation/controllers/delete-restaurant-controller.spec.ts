@@ -58,4 +58,11 @@ describe('DeleteRestaurant Controller', () => {
     await sut.handle(request)
     expect(deleteRestaurantSpy.id).toEqual(request.params.restaurantId)
   })
+
+  test('Should return 500 if DeleteRestaurant throws', async () => {
+    const { sut, deleteRestaurantSpy } = makeSut()
+    jest.spyOn(deleteRestaurantSpy, 'delete').mockRejectedValueOnce(new Error())
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual(serverError(new Error()))
+  })
 })
