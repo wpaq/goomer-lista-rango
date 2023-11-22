@@ -2,7 +2,7 @@ import { CheckRestaurantByIdSpy } from '@/tests/presentation/mocks'
 
 import { type HttpRequest } from '@/presentation/protocols'
 import { DeleteRestaurantController } from '@/presentation/controllers'
-import { forbidden } from '@/presentation/helpers'
+import { forbidden, serverError } from '@/presentation/helpers'
 import { InvalidParamError } from '@/presentation/errors'
 
 import { faker } from '@faker-js/faker'
@@ -40,5 +40,12 @@ describe('DeleteRestaurant Controller', () => {
     checkRestaurantByIdSpy.result = false
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(forbidden(new InvalidParamError('id')))
+  })
+
+  test('Should return 500 if CheckRestaurantById throws', async () => {
+    const { sut, checkRestaurantByIdSpy } = makeSut()
+    jest.spyOn(checkRestaurantByIdSpy, 'checkById').mockRejectedValueOnce(new Error())
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 })
