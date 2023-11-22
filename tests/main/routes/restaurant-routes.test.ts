@@ -117,4 +117,12 @@ describe('Restaurant Routes', () => {
         .expect(403)
     })
   })
+
+  describe('DELETE /restaurant/:restaurantId', () => {
+    test('should return 403 if invalid id is provided', async () => {
+      await request(app)
+        .delete(`/api/restaurant/${faker.string.uuid()}`)
+        .expect(403)
+    })
+  })
 })
