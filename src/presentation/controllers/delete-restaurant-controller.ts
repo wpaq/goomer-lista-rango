@@ -1,5 +1,6 @@
 import { type HttpRequest, type HttpResponse, type Controller } from '@/presentation/protocols'
-import { noContent, serverError } from '@/presentation/helpers'
+import { forbidden, noContent, serverError } from '@/presentation/helpers'
+import { InvalidParamError } from '@/presentation/errors'
 import { type CheckRestaurantById } from '@/domain/usecases'
 
 export class DeleteRestaurantController implements Controller {
@@ -10,7 +11,10 @@ export class DeleteRestaurantController implements Controller {
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const id = httpRequest.params.restaurantId
-      await this.checkRestaurantById.checkById(id)
+      const exists = await this.checkRestaurantById.checkById(id)
+      if (!exists) {
+        return forbidden(new InvalidParamError('id'))
+      }
 
       return noContent()
     } catch (error) {
