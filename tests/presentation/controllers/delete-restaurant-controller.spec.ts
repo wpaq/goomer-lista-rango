@@ -2,7 +2,7 @@ import { CheckRestaurantByIdSpy, DeleteRestaurantSpy } from '@/tests/presentatio
 
 import { type HttpRequest } from '@/presentation/protocols'
 import { DeleteRestaurantController } from '@/presentation/controllers'
-import { forbidden, serverError } from '@/presentation/helpers'
+import { forbidden, noContent, serverError } from '@/presentation/helpers'
 import { InvalidParamError } from '@/presentation/errors'
 
 import { faker } from '@faker-js/faker'
@@ -64,5 +64,11 @@ describe('DeleteRestaurant Controller', () => {
     jest.spyOn(deleteRestaurantSpy, 'delete').mockRejectedValueOnce(new Error())
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('Should return 204 on success', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual(noContent())
   })
 })
