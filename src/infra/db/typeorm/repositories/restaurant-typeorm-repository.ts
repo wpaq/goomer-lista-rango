@@ -1,10 +1,10 @@
-import { type LoadRestaurantsRepository, type AddRestaurantRepository, type LoadRestaurantByIdRepository, type CheckRestaurantByIdRepository, type UpdateRestaurantRepository } from '@/data/protocols'
+import { type LoadRestaurantsRepository, type AddRestaurantRepository, type LoadRestaurantByIdRepository, type CheckRestaurantByIdRepository, type UpdateRestaurantRepository, type DeleteRestaurantRepository } from '@/data/protocols'
 import { type RestaurantModel } from '@/domain/models'
 import { type UpdateRestaurantParams, type AddRestaurantParams } from '@/domain/usecases'
 import { Restaurant } from '@/infra/db/typeorm/entities'
 import { TypeormHelper } from '@/infra/db/typeorm/helpers'
 
-export class RestaurantTypeormRepository implements AddRestaurantRepository, LoadRestaurantsRepository, LoadRestaurantByIdRepository, CheckRestaurantByIdRepository, UpdateRestaurantRepository {
+export class RestaurantTypeormRepository implements AddRestaurantRepository, LoadRestaurantsRepository, LoadRestaurantByIdRepository, CheckRestaurantByIdRepository, UpdateRestaurantRepository, DeleteRestaurantRepository {
   async add (data: AddRestaurantParams): Promise<boolean | RestaurantModel> {
     const { photo, name, address, openingHours } = data
     const restaurantRepository = TypeormHelper.client.getRepository(Restaurant)
@@ -42,5 +42,10 @@ export class RestaurantTypeormRepository implements AddRestaurantRepository, Loa
     const restaurantToUpdate = await restaurantRepository.findOne({ where: { id } }) as RestaurantModel
     restaurantRepository.merge(restaurantToUpdate, data)
     return await restaurantRepository.save(restaurantToUpdate)
+  }
+
+  async delete (id: string): Promise<void> {
+    const restaurantRepository = TypeormHelper.client.getRepository(Restaurant)
+    await restaurantRepository.delete({ id })
   }
 }
