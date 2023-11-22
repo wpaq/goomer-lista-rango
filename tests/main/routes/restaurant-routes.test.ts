@@ -124,5 +124,12 @@ describe('Restaurant Routes', () => {
         .delete(`/api/restaurant/${faker.string.uuid()}`)
         .expect(403)
     })
+
+    test('should return 204 on success', async () => {
+      const res = await restaurantRepository.insert(mockAddRestaurantParams())
+      await request(app)
+        .delete(`/api/restaurant/${res.raw[0].id}`)
+        .expect(204)
+    })
   })
 })
