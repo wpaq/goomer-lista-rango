@@ -30,4 +30,11 @@ describe('DbAddProduct usecase', () => {
       category: addProductParams.category
     })
   })
+
+  test('Should throw if AddProductRepository throws', async () => {
+    const { sut, addProductRepositorySpy } = makeSut()
+    jest.spyOn(addProductRepositorySpy, 'add').mockRejectedValueOnce(new Error())
+    const response = sut.add(mockAddProductParams())
+    await expect(response).rejects.toThrow()
+  })
 })
