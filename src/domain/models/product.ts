@@ -2,10 +2,10 @@ export type ProductModel = {
   id: string
   photo: string
   name: string
-  price: number
+  price: string
   category: string
   promotionalDescription?: string
-  promotionalPrice?: number
+  promotionalPrice?: string
   promotionalDays?: string
   promotionalHours?: string
 }
