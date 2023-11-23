@@ -37,4 +37,10 @@ describe('DbAddProduct usecase', () => {
     const response = sut.add(mockAddProductParams())
     await expect(response).rejects.toThrow()
   })
+
+  test('Should return an product on success', async () => {
+    const { sut, addProductRepositorySpy } = makeSut()
+    const result = await sut.add(mockAddProductParams())
+    expect(result).toEqual(addProductRepositorySpy.result)
+  })
 })
