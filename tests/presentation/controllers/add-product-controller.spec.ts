@@ -1,4 +1,4 @@
-import { ValidationSpy } from '@/tests/presentation/mocks'
+import { AddProductSpy, ValidationSpy } from '@/tests/presentation/mocks'
 
 import { type HttpRequest } from '@/presentation/protocols'
 import { AddProductController } from '@/presentation/controllers'
@@ -19,14 +19,17 @@ const mockRequest = (): HttpRequest => ({
 type SutTypes = {
   sut: AddProductController
   validationSpy: ValidationSpy
+  addProductSpy: AddProductSpy
 }
 
 const makeSut = (): SutTypes => {
   const validationSpy = new ValidationSpy()
-  const sut = new AddProductController(validationSpy)
+  const addProductSpy = new AddProductSpy()
+  const sut = new AddProductController(validationSpy, addProductSpy)
   return {
     sut,
-    validationSpy
+    validationSpy,
+    addProductSpy
   }
 }
 
@@ -43,5 +46,12 @@ describe('AddProduct Controller', () => {
     validationSpy.error = new MissingParamError(faker.word.words())
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(badRequest(validationSpy.error))
+  })
+
+  test('Should call AddProduct with correct values', async () => {
+    const { sut, addProductSpy } = makeSut()
+    const request = mockRequest()
+    await sut.handle(request)
+    expect(addProductSpy.addProductParams).toEqual(request.body)
   })
 })
