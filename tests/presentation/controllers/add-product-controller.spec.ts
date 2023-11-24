@@ -3,7 +3,7 @@ import { AddProductSpy, ValidationSpy } from '@/tests/presentation/mocks'
 import { type HttpRequest } from '@/presentation/protocols'
 import { AddProductController } from '@/presentation/controllers'
 import { MissingParamError } from '@/presentation/errors'
-import { badRequest } from '@/presentation/helpers'
+import { badRequest, serverError } from '@/presentation/helpers'
 
 import { faker } from '@faker-js/faker'
 
@@ -53,5 +53,12 @@ describe('AddProduct Controller', () => {
     const request = mockRequest()
     await sut.handle(request)
     expect(addProductSpy.addProductParams).toEqual(request.body)
+  })
+
+  test('Should return 500 if AddProduct throws', async () => {
+    const { sut, addProductSpy } = makeSut()
+    jest.spyOn(addProductSpy, 'add').mockRejectedValueOnce(new Error())
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 })
