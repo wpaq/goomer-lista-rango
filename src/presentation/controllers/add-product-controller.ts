@@ -1,5 +1,5 @@
 import { Controller, HttpRequest, HttpResponse, Validation } from '@/presentation/protocols'
-import { badRequest, noContent, serverError } from '@/presentation/helpers'
+import { badRequest, ok, serverError } from '@/presentation/helpers'
 import { AddProduct } from '@/domain/usecases'
 
 export class AddProductController implements Controller {
@@ -14,8 +14,8 @@ export class AddProductController implements Controller {
       if (error) {
         return badRequest(error)
       }
-      await this.addProduct.add(httpRequest.body)
-      return noContent()
+      const produto = await this.addProduct.add(httpRequest.body)
+      return ok(produto)
     } catch (error) {
       return serverError(error)
     }
