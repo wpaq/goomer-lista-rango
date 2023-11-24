@@ -1,5 +1,5 @@
 import { Controller, HttpRequest, HttpResponse, Validation } from '@/presentation/protocols'
-import { badRequest, noContent } from '@/presentation/helpers'
+import { badRequest, noContent, serverError } from '@/presentation/helpers'
 import { AddProduct } from '@/domain/usecases'
 
 export class AddProductController implements Controller {
@@ -9,11 +9,15 @@ export class AddProductController implements Controller {
   ) {}
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
-    const error = this.validation.validate(httpRequest.body)
-    if (error) {
-      return badRequest(error)
+    try {
+      const error = this.validation.validate(httpRequest.body)
+      if (error) {
+        return badRequest(error)
+      }
+      await this.addProduct.add(httpRequest.body)
+      return noContent()
+    } catch (error) {
+      return serverError(error)
     }
-    await this.addProduct.add(httpRequest.body)
-    return noContent()
   }
 }
