@@ -33,5 +33,17 @@ describe('Product Routes', () => {
         })
         .expect(400)
     })
+
+    test('should return 200 on success', async () => {
+      await request(app)
+        .post('/api/product')
+        .send({
+          photo: 'http://www.photo_1.com',
+          name: 'Potato Chips',
+          price: '10.00',
+          category: 'Food'
+        })
+        .expect(200)
+    })
   })
 })
