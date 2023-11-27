@@ -1,4 +1,4 @@
-import { mockAddProductParams, mockAddRestaurantParams } from '@/tests/domain/mocks'
+import { mockAddProductParams, mockAddRestaurantParams, mockUpdateProductParams } from '@/tests/domain/mocks'
 
 import { ProductTypeormRepository, TypeormHelper } from '@/infra/db/typeorm'
 import { Product, Restaurant } from '@/infra/db/typeorm/entities'
@@ -40,6 +40,18 @@ describe('ProductTypeormRepository', () => {
       await sut.add(Object.assign({}, addProductParams, { restaurantId: await mockRestaurantId() }))
       const count = await productRepository.countBy({ name: addProductParams.name })
       expect(count).toBe(1)
+    })
+  })
+
+  describe('update()', () => {
+    test('Should return an product on success', async () => {
+      const restaurant = await restaurantRepository.insert(mockAddRestaurantParams())
+      const product = await productRepository.insert(Object.assign({}, mockAddProductParams(), { restaurantId: restaurant.raw[0].id }))
+      const sut = makeSut()
+      const updateProductParams = mockUpdateProductParams()
+      const updatedProduct = await sut.update(product.raw[0].id, updateProductParams)
+      expect(updatedProduct.id).toBeTruthy()
+      expect(updatedProduct.photo).toBe(updateProductParams.photo)
     })
   })
 })
