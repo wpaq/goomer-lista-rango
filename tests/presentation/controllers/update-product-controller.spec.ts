@@ -2,7 +2,7 @@ import { CheckProductByIdSpy } from '@/tests/presentation/mocks'
 
 import { type HttpRequest } from '@/presentation/protocols'
 import { UpdateProductController } from '@/presentation/controllers'
-import { forbidden } from '@/presentation/helpers'
+import { forbidden, serverError } from '@/presentation/helpers'
 import { InvalidParamError } from '@/presentation/errors'
 
 import { faker } from '@faker-js/faker'
@@ -47,5 +47,12 @@ describe('UpdateProduct Controller', () => {
     checkProductByIdSpy.result = false
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(forbidden(new InvalidParamError('id')))
+  })
+
+  test('Should return 500 if CheckProductById throws', async () => {
+    const { sut, checkProductByIdSpy } = makeSut()
+    jest.spyOn(checkProductByIdSpy, 'checkById').mockRejectedValueOnce(new Error())
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 })
