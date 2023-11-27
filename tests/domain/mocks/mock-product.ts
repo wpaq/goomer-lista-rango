@@ -20,6 +20,7 @@ export const mockAddProductParams = (): AddProductParams => ({
   name: faker.commerce.productName(),
   price: faker.commerce.price(),
   category: faker.commerce.productAdjective(),
+  restaurantId: faker.string.uuid(),
   promotionalDescription: faker.commerce.productDescription(),
   promotionalPrice: faker.commerce.price(),
   promotionalDays: faker.date.weekday(),
