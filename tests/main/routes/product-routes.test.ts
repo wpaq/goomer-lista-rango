@@ -1,4 +1,4 @@
-import { mockAddRestaurantParams } from '@/tests/domain/mocks'
+import { mockAddProductParams, mockAddRestaurantParams } from '@/tests/domain/mocks'
 
 import app from '@/main/config/app'
 import { TypeormHelper } from '@/infra/db/typeorm'
@@ -82,6 +82,19 @@ describe('Product Routes', () => {
           price: '15.10'
         })
         .expect(403)
+    })
+
+    test('should return 200 on success', async () => {
+      const restaurant = await restaurantRepository.insert(mockAddRestaurantParams())
+      const product = await productRepository.insert(Object.assign({}, mockAddProductParams(), { restaurantId: restaurant.raw[0].id }))
+      await request(app)
+        .put(`/api/product/${product.raw[0].id}`)
+        .send({
+          photo: faker.image.url(),
+          name: 'Wallyson',
+          price: faker.commerce.price()
+        })
+        .expect(200)
     })
   })
 })
