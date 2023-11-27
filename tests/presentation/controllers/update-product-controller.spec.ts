@@ -1,4 +1,4 @@
-import { CheckProductByIdSpy } from '@/tests/presentation/mocks'
+import { CheckProductByIdSpy, UpdateProductSpy } from '@/tests/presentation/mocks'
 
 import { type HttpRequest } from '@/presentation/protocols'
 import { UpdateProductController } from '@/presentation/controllers'
@@ -23,14 +23,17 @@ const mockRequest = (): HttpRequest => ({
 type SutTypes = {
   sut: UpdateProductController
   checkProductByIdSpy: CheckProductByIdSpy
+  updateProductSpy: UpdateProductSpy
 }
 
 const makeSut = (): SutTypes => {
   const checkProductByIdSpy = new CheckProductByIdSpy()
-  const sut = new UpdateProductController(checkProductByIdSpy)
+  const updateProductSpy = new UpdateProductSpy()
+  const sut = new UpdateProductController(checkProductByIdSpy, updateProductSpy)
   return {
     sut,
-    checkProductByIdSpy
+    checkProductByIdSpy,
+    updateProductSpy
   }
 }
 
@@ -54,5 +57,13 @@ describe('UpdateProduct Controller', () => {
     jest.spyOn(checkProductByIdSpy, 'checkById').mockRejectedValueOnce(new Error())
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('Should call UpdateProduct with correct values', async () => {
+    const { sut, updateProductSpy } = makeSut()
+    const request = mockRequest()
+    await sut.handle(request)
+    expect(updateProductSpy.updateProductParams).toEqual(request.body)
+    expect(updateProductSpy.id).toEqual(request.params.productId)
   })
 })
