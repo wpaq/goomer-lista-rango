@@ -19,13 +19,16 @@ export class RestaurantTypeormRepository implements AddRestaurantRepository, Loa
 
   async loadAll (): Promise<RestaurantModel[]> {
     const restaurantRepository = TypeormHelper.client.getRepository(Restaurant)
-    return await restaurantRepository.find()
+    return await restaurantRepository.find({
+      relations: ['products']
+    })
   }
 
   async loadById (id: string): Promise<RestaurantModel> {
     const restaurantRepository = TypeormHelper.client.getRepository(Restaurant)
     return await restaurantRepository.findOne({
-      where: { id }
+      where: { id },
+      relations: ['products']
     }) as RestaurantModel
   }
 
@@ -39,9 +42,9 @@ export class RestaurantTypeormRepository implements AddRestaurantRepository, Loa
 
   async update (id: string, data: UpdateRestaurantParams): Promise<RestaurantModel> {
     const restaurantRepository = TypeormHelper.client.getRepository(Restaurant)
-    const restaurantToUpdate = await restaurantRepository.findOne({ where: { id } }) as RestaurantModel
-    restaurantRepository.merge(restaurantToUpdate, data)
-    return await restaurantRepository.save(restaurantToUpdate)
+    const restaurant = await restaurantRepository.findOne({ where: { id } }) as RestaurantModel
+    Object.assign(restaurant, data)
+    return await restaurantRepository.save(restaurant)
   }
 
   async delete (id: string): Promise<void> {

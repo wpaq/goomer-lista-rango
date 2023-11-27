@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm'
 import { Restaurant } from './restaurant-entity'
 
 @Entity('products')
@@ -46,7 +46,9 @@ export class Product {
   })
     promotionalHours: string
 
-  @ManyToOne(() => Restaurant, (restaurant) => restaurant.id)
-  @JoinColumn({ name: 'restaurantId' })
+  @ManyToOne(() => Restaurant, restaurant => restaurant.products, { onDelete: 'CASCADE' })
     restaurant: Restaurant
+
+  @Column()
+    restaurantId: string
 }
