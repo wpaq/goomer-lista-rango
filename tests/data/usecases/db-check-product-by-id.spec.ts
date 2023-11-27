@@ -37,4 +37,10 @@ describe('DbCheckProductById', () => {
     const exists = await sut.checkById(productId)
     expect(exists).toBe(false)
   })
+
+  test('Should return true if CheckProductByIdRepository returns true', async () => {
+    const { sut } = makeSut()
+    const exists = await sut.checkById(productId)
+    expect(exists).toBe(true)
+  })
 })
