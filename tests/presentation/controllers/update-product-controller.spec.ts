@@ -66,4 +66,11 @@ describe('UpdateProduct Controller', () => {
     expect(updateProductSpy.updateProductParams).toEqual(request.body)
     expect(updateProductSpy.id).toEqual(request.params.productId)
   })
+
+  test('Should return 500 if UpdateProduct throws', async () => {
+    const { sut, updateProductSpy } = makeSut()
+    jest.spyOn(updateProductSpy, 'update').mockRejectedValueOnce(new Error())
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual(serverError(new Error()))
+  })
 })
