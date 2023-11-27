@@ -4,6 +4,7 @@ import { ProductTypeormRepository, TypeormHelper } from '@/infra/db/typeorm'
 import { Product, Restaurant } from '@/infra/db/typeorm/entities'
 
 import { Repository } from 'typeorm'
+import { faker } from '@faker-js/faker'
 
 let productRepository: Repository<Product>
 let restaurantRepository: Repository<Restaurant>
@@ -62,6 +63,12 @@ describe('ProductTypeormRepository', () => {
       const sut = makeSut()
       const exists = await sut.checkById(product.raw[0].id)
       expect(exists).toBeTruthy()
+    })
+
+    test('Should return false if product not exists', async () => {
+      const sut = makeSut()
+      const exists = await sut.checkById(faker.string.uuid())
+      expect(exists).toBeFalsy()
     })
   })
 })
