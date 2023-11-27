@@ -33,4 +33,10 @@ describe('DbUpdateProduct', () => {
     const response = sut.update(faker.string.uuid(), mockUpdateProductParams())
     await expect(response).rejects.toThrow()
   })
+
+  test('Should return an product on success', async () => {
+    const { sut, updateProductRepositorySpy } = makeSut()
+    const result = await sut.update(faker.string.uuid(), mockUpdateProductParams())
+    expect(result).toEqual(updateProductRepositorySpy.result)
+  })
 })
