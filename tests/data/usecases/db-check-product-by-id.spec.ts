@@ -43,4 +43,11 @@ describe('DbCheckProductById', () => {
     const exists = await sut.checkById(productId)
     expect(exists).toBe(true)
   })
+
+  test('Should throw if CheckProductByIdRepository throws', async () => {
+    const { sut, checkProductByIdRepositorySpy } = makeSut()
+    jest.spyOn(checkProductByIdRepositorySpy, 'checkById').mockRejectedValueOnce(new Error())
+    const promise = sut.checkById(productId)
+    await expect(promise).rejects.toThrow()
+  })
 })
