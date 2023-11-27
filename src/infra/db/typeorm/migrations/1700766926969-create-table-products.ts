@@ -8,9 +8,10 @@ export class CreateTableProducts1700766926969 implements MigrationInterface {
         columns: [
           {
             name: 'id',
-            type: 'varchar',
+            type: 'uuid',
             isPrimary: true,
-            generationStrategy: 'uuid'
+            generationStrategy: 'uuid',
+            default: 'uuid_generate_v4()'
           },
           {
             name: 'photo',
@@ -54,9 +55,7 @@ export class CreateTableProducts1700766926969 implements MigrationInterface {
           },
           {
             name: 'restaurantId',
-            type: 'uuid',
-            generationStrategy: 'uuid',
-            default: 'uuid_generate_v4()'
+            type: 'uuid'
           }
         ]
       })
@@ -70,18 +69,16 @@ export class CreateTableProducts1700766926969 implements MigrationInterface {
       })
     )
 
-    await queryRunner.createForeignKey(
-      'products',
-      new TableForeignKey({
-        columnNames: ['restaurantId'],
-        referencedTableName: 'restaurants',
-        referencedColumnNames: ['id'],
-        onDelete: 'CASCADE'
-      })
-    )
+    await queryRunner.createForeignKey('products', new TableForeignKey({
+      columnNames: ['restaurantId'],
+      referencedColumnNames: ['id'],
+      referencedTableName: 'restaurants',
+      onDelete: 'CASCADE'
+    }))
   }
 
   public async down (queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropForeignKey('products', 'FK_Product_Restaurant')
     await queryRunner.dropTable('products')
   }
 }
