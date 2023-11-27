@@ -14,15 +14,7 @@ export class AddRestaurantController implements Controller {
       if (error) {
         return badRequest(error)
       }
-
-      const { photo, name, address, openingHours } = httpRequest.body
-      const restaurant = await this.addRestaurant.add({
-        photo,
-        name,
-        address,
-        openingHours
-      })
-
+      const restaurant = await this.addRestaurant.add(httpRequest.body)
       return ok(restaurant)
     } catch (error) {
       return serverError(error)

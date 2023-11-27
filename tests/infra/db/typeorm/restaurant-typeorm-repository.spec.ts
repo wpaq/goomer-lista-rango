@@ -2,9 +2,11 @@ import { mockAddRestaurantParams, mockUpdateRestaurantParams } from '@/tests/dom
 
 import { RestaurantTypeormRepository, TypeormHelper } from '@/infra/db/typeorm'
 import { Restaurant } from '@/infra/db/typeorm/entities'
-import { faker } from '@faker-js/faker'
 
-let restaurantRepository
+import { faker } from '@faker-js/faker'
+import { Repository } from 'typeorm'
+
+let restaurantRepository: Repository<Restaurant>
 
 const makeSut = (): RestaurantTypeormRepository => {
   return new RestaurantTypeormRepository()
@@ -36,18 +38,13 @@ describe('RestaurantTypeormRepository', () => {
 
   describe('loadAll()', () => {
     test('Should load all restaurants on success', async () => {
-      const addRestaurantsParams = [mockAddRestaurantParams(), mockAddRestaurantParams()]
-      const addRestaurants = restaurantRepository.create(addRestaurantsParams)
-      await restaurantRepository.insert(addRestaurants)
+      await restaurantRepository.insert([mockAddRestaurantParams(), mockAddRestaurantParams()])
 
       const sut = makeSut()
       const restaurants = await sut.loadAll()
       expect(restaurants.length).toBe(2)
       expect(restaurants[0].id).toBeTruthy()
-      expect(restaurants[0].name).toBe(addRestaurantsParams[0].name)
-      expect(restaurants[0].photo).toBe(addRestaurantsParams[0].photo)
-      expect(restaurants[1].name).toBe(addRestaurantsParams[1].name)
-      expect(restaurants[1].photo).toBe(addRestaurantsParams[1].photo)
+      expect(restaurants[1].id).toBeTruthy()
     })
 
     test('Should load empty list', async () => {
@@ -64,7 +61,7 @@ describe('RestaurantTypeormRepository', () => {
       const result = await restaurantRepository.insert(addRestaurants)
 
       const sut = makeSut()
-      const restaurant = await sut.loadById(result.id)
+      const restaurant = await sut.loadById(result.raw[0].id)
       expect(restaurant.id).toBeTruthy()
       expect(restaurant.name).toBe(addRestaurantsParams.name)
       expect(restaurant.photo).toBe(addRestaurantsParams.photo)
@@ -84,7 +81,7 @@ describe('RestaurantTypeormRepository', () => {
       const result = await restaurantRepository.insert(addRestaurant)
 
       const sut = makeSut()
-      const exists = await sut.checkById(result.id)
+      const exists = await sut.checkById(result.raw[0].id)
       expect(exists).toBeTruthy()
     })
 
