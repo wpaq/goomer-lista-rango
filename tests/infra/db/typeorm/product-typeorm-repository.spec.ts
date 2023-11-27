@@ -54,4 +54,14 @@ describe('ProductTypeormRepository', () => {
       expect(updatedProduct.photo).toBe(updateProductParams.photo)
     })
   })
+
+  describe('checkById()', () => {
+    test('Should return true if product exists', async () => {
+      const restaurant = await restaurantRepository.insert(mockAddRestaurantParams())
+      const product = await productRepository.insert(Object.assign({}, mockAddProductParams(), { restaurantId: restaurant.raw[0].id }))
+      const sut = makeSut()
+      const exists = await sut.checkById(product.raw[0].id)
+      expect(exists).toBeTruthy()
+    })
+  })
 })
