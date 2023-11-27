@@ -26,4 +26,11 @@ describe('DbUpdateProduct', () => {
     await sut.update(faker.string.uuid(), updateProductParams)
     expect(updateProductRepositorySpy.updateProductParams).toEqual(updateProductParams)
   })
+
+  test('Should throw if UpdateProductRepository throws', async () => {
+    const { sut, updateProductRepositorySpy } = makeSut()
+    jest.spyOn(updateProductRepositorySpy, 'update').mockRejectedValueOnce(new Error())
+    const response = sut.update(faker.string.uuid(), mockUpdateProductParams())
+    await expect(response).rejects.toThrow()
+  })
 })
