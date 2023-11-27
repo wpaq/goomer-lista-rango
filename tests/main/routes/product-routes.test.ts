@@ -71,4 +71,17 @@ describe('Product Routes', () => {
         .expect(200)
     })
   })
+
+  describe('PUT /product/:productId', () => {
+    test('should return 403 if invalid id is provided', async () => {
+      await request(app)
+        .put(`/api/product/${faker.string.uuid()}`)
+        .send({
+          photo: faker.image.url(),
+          name: 'Tomato',
+          price: '15.10'
+        })
+        .expect(403)
+    })
+  })
 })
