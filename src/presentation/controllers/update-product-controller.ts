@@ -1,5 +1,5 @@
 import { type HttpRequest, type HttpResponse, type Controller } from '@/presentation/protocols'
-import { forbidden, noContent, serverError } from '@/presentation/helpers'
+import { forbidden, ok, serverError } from '@/presentation/helpers'
 import { InvalidParamError } from '@/presentation/errors'
 import { CheckProductById, UpdateProduct } from '@/domain/usecases'
 
@@ -16,8 +16,8 @@ export class UpdateProductController implements Controller {
       if (!exists) {
         return forbidden(new InvalidParamError('id'))
       }
-      await this.updateProduct.update(id, httpRequest.body)
-      return noContent()
+      const product = await this.updateProduct.update(id, httpRequest.body)
+      return ok(product)
     } catch (error) {
       return serverError(error)
     }
