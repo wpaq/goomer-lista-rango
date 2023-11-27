@@ -1,8 +1,9 @@
 import { DbAddProduct } from '@/data/usecases'
 import { type AddProduct } from '@/domain/usecases'
-import { ProductTypeormRepository } from '@/infra/db/typeorm'
+import { ProductTypeormRepository, RestaurantTypeormRepository } from '@/infra/db/typeorm'
 
 export const makeDbAddProductUsecase = (): AddProduct => {
   const productRepository = new ProductTypeormRepository()
-  return new DbAddProduct(productRepository)
+  const restaurantRepository = new RestaurantTypeormRepository()
+  return new DbAddProduct(restaurantRepository, productRepository)
 }
