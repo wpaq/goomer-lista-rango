@@ -2,6 +2,8 @@ import { CheckProductByIdSpy } from '@/tests/presentation/mocks'
 
 import { type HttpRequest } from '@/presentation/protocols'
 import { UpdateProductController } from '@/presentation/controllers'
+import { forbidden } from '@/presentation/helpers'
+import { InvalidParamError } from '@/presentation/errors'
 
 import { faker } from '@faker-js/faker'
 
@@ -38,5 +40,12 @@ describe('UpdateProduct Controller', () => {
     const request = mockRequest()
     await sut.handle(request)
     expect(checkProductByIdSpy.id).toEqual(request.params.productId)
+  })
+
+  test('Should return 403 if CheckProductById returns false', async () => {
+    const { sut, checkProductByIdSpy } = makeSut()
+    checkProductByIdSpy.result = false
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual(forbidden(new InvalidParamError('id')))
   })
 })
