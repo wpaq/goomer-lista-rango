@@ -1,10 +1,10 @@
 import { TypeormHelper } from '@/infra/db/typeorm/helpers'
 import { Product, Restaurant } from '@/infra/db/typeorm/entities'
-import { type AddProductRepository } from '@/data/protocols'
+import { UpdateProductRepository, type AddProductRepository } from '@/data/protocols'
 import { RestaurantModel, type ProductModel } from '@/domain/models'
-import { type AddProductParams } from '@/domain/usecases'
+import { UpdateProductParams, type AddProductParams } from '@/domain/usecases'
 
-export class ProductTypeormRepository implements AddProductRepository {
+export class ProductTypeormRepository implements AddProductRepository, UpdateProductRepository {
   async add (data: AddProductParams): Promise<boolean | ProductModel> {
     const restaurantRepository = TypeormHelper.client.getRepository(Restaurant)
     const productRepository = TypeormHelper.client.getRepository(Product)
@@ -17,5 +17,12 @@ export class ProductTypeormRepository implements AddProductRepository {
     })
 
     return await productRepository.save(newProduct)
+  }
+
+  async update (id: string, data: UpdateProductParams): Promise<ProductModel> {
+    const productRepository = TypeormHelper.client.getRepository(Product)
+    const product = await productRepository.findOne({ where: { id } }) as ProductModel
+    Object.assign(product, data)
+    return await productRepository.save(product)
   }
 }
