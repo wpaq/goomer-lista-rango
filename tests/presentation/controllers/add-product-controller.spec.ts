@@ -1,9 +1,9 @@
-import { AddProductSpy, ValidationSpy } from '@/tests/presentation/mocks'
+import { AddProductSpy, CheckRestaurantByIdSpy, ValidationSpy } from '@/tests/presentation/mocks'
 
 import { type HttpRequest } from '@/presentation/protocols'
 import { AddProductController } from '@/presentation/controllers'
-import { MissingParamError } from '@/presentation/errors'
-import { badRequest, ok, serverError } from '@/presentation/helpers'
+import { InvalidParamError, MissingParamError } from '@/presentation/errors'
+import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers'
 
 import { faker } from '@faker-js/faker'
 
@@ -12,23 +12,27 @@ const mockRequest = (): HttpRequest => ({
     photo: faker.image.url(),
     name: faker.commerce.productName(),
     price: faker.commerce.price(),
-    category: faker.commerce.productAdjective()
+    category: faker.commerce.productAdjective(),
+    restaurantId: faker.string.uuid()
   }
 })
 
 type SutTypes = {
   sut: AddProductController
   validationSpy: ValidationSpy
+  checkRestaurantByIdSpy: CheckRestaurantByIdSpy
   addProductSpy: AddProductSpy
 }
 
 const makeSut = (): SutTypes => {
   const validationSpy = new ValidationSpy()
+  const checkRestaurantByIdSpy = new CheckRestaurantByIdSpy()
   const addProductSpy = new AddProductSpy()
-  const sut = new AddProductController(validationSpy, addProductSpy)
+  const sut = new AddProductController(validationSpy, checkRestaurantByIdSpy, addProductSpy)
   return {
     sut,
     validationSpy,
+    checkRestaurantByIdSpy,
     addProductSpy
   }
 }
@@ -46,6 +50,13 @@ describe('AddProduct Controller', () => {
     validationSpy.error = new MissingParamError(faker.word.words())
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(badRequest(validationSpy.error))
+  })
+
+  test('Should return 403 if CheckRestaurantById returns false', async () => {
+    const { sut, checkRestaurantByIdSpy } = makeSut()
+    checkRestaurantByIdSpy.result = false
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual(forbidden(new InvalidParamError('restaurantId')))
   })
 
   test('Should call AddProduct with correct values', async () => {
