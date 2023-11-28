@@ -1,5 +1,5 @@
 import { ProductModel } from '@/domain/models'
-import { AddProduct, AddProductParams, CheckProductById, UpdateProduct, UpdateProductParams } from '@/domain/usecases'
+import { AddProduct, AddProductParams, CheckProductById, DeleteProduct, UpdateProduct, UpdateProductParams } from '@/domain/usecases'
 import { mockProductModel } from '@/tests/domain/mocks'
 
 export class AddProductSpy implements AddProduct {
@@ -31,5 +31,13 @@ export class UpdateProductSpy implements UpdateProduct {
     this.id = id
     this.updateProductParams = data
     return this.result
+  }
+}
+
+export class DeleteProductSpy implements DeleteProduct {
+  id: string
+
+  async delete (id: string): Promise<void> {
+    this.id = id
   }
 }
