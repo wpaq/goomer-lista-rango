@@ -3,7 +3,7 @@
 > ## Caso de sucesso
 
 1. ✅ Recebe uma requisição do tipo **PUT** na rota **/api/product/${productId}**
-2. ❌ **Valida** o parâmetro **productId**
+2. ✅ **Valida** o parâmetro **productId**
 3. ✅ **Atualiza** o produto com os dados fornecidos
 4. ✅ Retorna **200** com os dados do produto atualizado
 

@@ -3,7 +3,7 @@
 > ## Caso de sucesso
 
 1. ✅  Recebe uma requisição do tipo **DELETE** na rota **/api/restaurant/${restaurantId}**
-2. ❌ **Valida** o parâmetro **restaurantId**
+2. ✅ **Valida** o parâmetro **restaurantId**
 3. ✅  **Exclui** o restaurante com o **restaurantId** informado
 4. ✅  Retorna **204** caso o restaurante tenha sido excluído
 

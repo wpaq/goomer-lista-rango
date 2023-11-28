@@ -3,7 +3,7 @@
 > ## Caso de sucesso
 
 1. ✅ Recebe uma requisição do tipo **GET** na rota **/api/restaurant/${restaurantId}**
-2. ❌ **Valida** o parâmetro **restaurantId**
+2. ✅ **Valida** o parâmetro **restaurantId**
 3. ✅ Retorna **204** se não tiver nenhum restaurante
 4. ✅ Retorna **200** com os dados do restaurante
 

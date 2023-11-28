@@ -5,7 +5,7 @@
 1. ✅ Recebe uma requisição do tipo **POST** na rota **/api/restaurant**
 2. ✅ Valida dados obrigatórios **photo**, **name**, **address** e **openingHours**
 3. ✅ **Valida** que o campo **openingHours** é um horário válido, HH:mm
-4. ❌ **Valida** se já existe um restaurante com o **name** fornecido
+4. ✅ **Valida** se já existe um restaurante com o **name** fornecido
 5. ✅ **Cria** um restaurante com os dados fornecidos
 6. ✅ Retorna **200** com os dados do restaurante adicionado
 

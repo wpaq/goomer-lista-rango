@@ -3,7 +3,7 @@
 > ## Caso de sucesso
 
 1. ✅ Recebe uma requisição do tipo **PUT** na rota **/api/restaurant/${restaurantId}**
-2. ❌ **Valida** o parâmetro **restaurantId**
+2. ✅ **Valida** o parâmetro **restaurantId**
 3. ✅ **Atualiza** o restaurante com os dados fornecidos
 4. ✅ Retorna **200** com os dados do restaurante atualizado
 
