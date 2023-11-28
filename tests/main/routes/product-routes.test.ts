@@ -11,6 +11,16 @@ import { faker } from '@faker-js/faker'
 let productRepository: Repository<Product>
 let restaurantRepository: Repository<Restaurant>
 
+const mockRestaurantId = async (): Promise<string> => {
+  const restaurant = await restaurantRepository.insert(mockAddRestaurantParams())
+  return restaurant.raw[0].id
+}
+
+const mockProductId = async (): Promise<string> => {
+  const product = await productRepository.insert(Object.assign({}, mockAddProductParams(), { restaurantId: await mockRestaurantId() }))
+  return product.raw[0].id
+}
+
 describe('Product Routes', () => {
   beforeAll(async () => {
     await TypeormHelper.connect()
@@ -95,6 +105,21 @@ describe('Product Routes', () => {
           price: faker.commerce.price()
         })
         .expect(200)
+    })
+  })
+
+  describe('DELETE /product/:productId', () => {
+    test('should return 403 if invalid id is provided', async () => {
+      await request(app)
+        .delete(`/api/product/${faker.string.uuid()}`)
+        .expect(403)
+    })
+
+    test('should return 204 on success', async () => {
+      const productId = await mockProductId()
+      await request(app)
+        .delete(`/api/product/${productId}`)
+        .expect(204)
     })
   })
 })
