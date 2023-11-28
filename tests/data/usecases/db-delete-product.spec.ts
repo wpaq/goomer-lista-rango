@@ -30,4 +30,11 @@ describe('DbDeleteProduct', () => {
     await sut.delete(productId)
     expect(deleteProductRepositorySpy.id).toEqual(productId)
   })
+
+  test('Should throw if DeleteProductRepository throws', async () => {
+    const { sut, deleteProductRepositorySpy } = makeSut()
+    jest.spyOn(deleteProductRepositorySpy, 'delete').mockRejectedValueOnce(new Error())
+    const promise = sut.delete(productId)
+    await expect(promise).rejects.toThrow()
+  })
 })
