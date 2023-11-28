@@ -62,8 +62,9 @@ describe('UpdateProduct Controller', () => {
   test('Should call UpdateProduct with correct values', async () => {
     const { sut, updateProductSpy } = makeSut()
     const request = mockRequest()
+    const { restaurantId, ...bodyWithoutRestaurantId } = request.body
     await sut.handle(request)
-    expect(updateProductSpy.updateProductParams).toEqual(request.body)
+    expect(updateProductSpy.updateProductParams).toEqual(bodyWithoutRestaurantId)
     expect(updateProductSpy.id).toEqual(request.params.productId)
   })
 

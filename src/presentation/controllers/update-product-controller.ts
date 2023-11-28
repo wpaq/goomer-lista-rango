@@ -17,7 +17,7 @@ export class UpdateProductController implements Controller {
         return forbidden(new InvalidParamError('id'))
       }
       const { id, restaurantId, ...dataFiltered } = httpRequest.body
-      const product = await this.updateProduct.update(id, dataFiltered)
+      const product = await this.updateProduct.update(productId, dataFiltered)
       return ok(product)
     } catch (error) {
       return serverError(error)
