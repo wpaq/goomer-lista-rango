@@ -1,10 +1,10 @@
 import { TypeormHelper } from '@/infra/db/typeorm/helpers'
 import { Product, Restaurant } from '@/infra/db/typeorm/entities'
-import { UpdateProductRepository, AddProductRepository, CheckProductByIdRepository } from '@/data/protocols'
+import { UpdateProductRepository, AddProductRepository, CheckProductByIdRepository, DeleteProductRepository } from '@/data/protocols'
 import { type RestaurantModel, type ProductModel } from '@/domain/models'
 import { type UpdateProductParams, type AddProductParams } from '@/domain/usecases'
 
-export class ProductTypeormRepository implements AddProductRepository, CheckProductByIdRepository, UpdateProductRepository {
+export class ProductTypeormRepository implements AddProductRepository, CheckProductByIdRepository, UpdateProductRepository, DeleteProductRepository {
   async add (data: AddProductParams): Promise<boolean | ProductModel> {
     const restaurantRepository = TypeormHelper.client.getRepository(Restaurant)
     const productRepository = TypeormHelper.client.getRepository(Product)
@@ -32,5 +32,10 @@ export class ProductTypeormRepository implements AddProductRepository, CheckProd
       where: { id }
     })
     return product !== null
+  }
+
+  async delete (id: string): Promise<void> {
+    const productRepository = TypeormHelper.client.getRepository(Product)
+    await productRepository.delete({ id })
   }
 }
