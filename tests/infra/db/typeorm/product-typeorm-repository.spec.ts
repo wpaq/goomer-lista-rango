@@ -71,4 +71,17 @@ describe('ProductTypeormRepository', () => {
       expect(exists).toBeFalsy()
     })
   })
+
+  describe('delete()', () => {
+    test('Should remove an product on success', async () => {
+      const restaurant = await restaurantRepository.insert(mockAddRestaurantParams())
+      const product = await productRepository.insert(Object.assign({}, mockAddProductParams(), { restaurantId: restaurant.raw[0].id }))
+      const productId = product.raw[0].id
+
+      const sut = makeSut()
+      await sut.delete(productId)
+      const count = await productRepository.countBy({ id: productId })
+      expect(count).toBe(0)
+    })
+  })
 })
