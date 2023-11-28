@@ -8,7 +8,7 @@
 ✅ Listar todos os produtos de um restaurante
 ✅ Criar um produto de um restaurante
 ✅ Alterar um produto de um restaurante
-❌ Excluir um produto de um restaurante
+✅ Excluir um produto de um restaurante
 
 ## O cadastro do restaurante precisa ter os seguintes campos:
 ✅ Foto do restaurante
