@@ -11,12 +11,13 @@ export class UpdateProductController implements Controller {
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const id = httpRequest.params.productId
-      const exists = await this.checkProductById.checkById(id)
+      const productId = httpRequest.params.productId
+      const exists = await this.checkProductById.checkById(productId)
       if (!exists) {
         return forbidden(new InvalidParamError('id'))
       }
-      const product = await this.updateProduct.update(id, httpRequest.body)
+      const { id, restaurantId, ...dataFiltered } = httpRequest.body
+      const product = await this.updateProduct.update(id, dataFiltered)
       return ok(product)
     } catch (error) {
       return serverError(error)
