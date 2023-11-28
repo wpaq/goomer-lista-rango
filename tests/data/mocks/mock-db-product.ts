@@ -1,6 +1,6 @@
 import { mockProductModel } from '@/tests/domain/mocks'
 
-import { UpdateProductRepository, AddProductRepository, CheckProductByIdRepository } from '@/data/protocols'
+import { UpdateProductRepository, AddProductRepository, CheckProductByIdRepository, DeleteProductRepository } from '@/data/protocols'
 import { type UpdateProductParams, type AddProductParams } from '@/domain/usecases'
 import { type ProductModel } from '@/domain/models'
 
@@ -33,5 +33,13 @@ export class CheckProductByIdRepositorySpy implements CheckProductByIdRepository
   async checkById (id: string): Promise<boolean> {
     this.id = id
     return this.result
+  }
+}
+
+export class DeleteProductRepositorySpy implements DeleteProductRepository {
+  id: string
+
+  async delete (id: string): Promise<void> {
+    this.id = id
   }
 }
