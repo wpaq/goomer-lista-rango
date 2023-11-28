@@ -39,8 +39,6 @@ describe('Product Routes', () => {
 
   describe('POST /product', () => {
     test('should return 400 if an required field is not provided', async () => {
-      const restaurant = await restaurantRepository.insert(mockAddRestaurantParams())
-
       await request(app)
         .post('/api/product')
         .send({
@@ -48,7 +46,7 @@ describe('Product Routes', () => {
           name: 'Potato Chips',
           price: '10.00',
           category: 'Food',
-          restaurantId: restaurant.raw[0].id
+          restaurantId: await mockRestaurantId()
         })
         .expect(400)
     })
@@ -67,8 +65,6 @@ describe('Product Routes', () => {
     })
 
     test('should return 200 on success', async () => {
-      const restaurant = await restaurantRepository.insert(mockAddRestaurantParams())
-
       await request(app)
         .post('/api/product')
         .send({
@@ -76,7 +72,7 @@ describe('Product Routes', () => {
           name: 'Potato Chips',
           price: '10.00',
           category: 'Food',
-          restaurantId: restaurant.raw[0].id
+          restaurantId: await mockRestaurantId()
         })
         .expect(200)
     })
@@ -95,14 +91,12 @@ describe('Product Routes', () => {
     })
 
     test('should return 200 on success', async () => {
-      const restaurant = await restaurantRepository.insert(mockAddRestaurantParams())
-      const product = await productRepository.insert(Object.assign({}, mockAddProductParams(), { restaurantId: restaurant.raw[0].id }))
       await request(app)
-        .put(`/api/product/${product.raw[0].id}`)
+        .put(`/api/product/${await mockProductId()}`)
         .send({
           photo: faker.image.url(),
           name: 'Wallyson',
-          price: faker.commerce.price()
+          price: '5.99'
         })
         .expect(200)
     })
@@ -116,9 +110,8 @@ describe('Product Routes', () => {
     })
 
     test('should return 204 on success', async () => {
-      const productId = await mockProductId()
       await request(app)
-        .delete(`/api/product/${productId}`)
+        .delete(`/api/product/${await mockProductId()}`)
         .expect(204)
     })
   })
