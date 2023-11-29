@@ -11,7 +11,8 @@ export const addRestaurantParamsSchema = {
       type: 'string'
     },
     openingHours: {
-      type: 'string'
+      type: 'string',
+      example: '00:00'
     }
   },
   required: ['photo', 'name', 'address', 'openingHours']

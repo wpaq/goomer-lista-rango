@@ -15,7 +15,8 @@ export const restaurantSchema = {
       type: 'string'
     },
     openingHours: {
-      type: 'string'
+      type: 'string',
+      example: '00:00'
     }
   },
   required: ['id', 'photo', 'name', 'address', 'openingHours']
