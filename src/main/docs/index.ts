@@ -1,3 +1,7 @@
+import paths from './paths'
+import components from './components'
+import schemas from './schemas'
+
 export default {
   openapi: '3.0.0',
   info: {
@@ -24,5 +28,8 @@ export default {
   }, {
     name: 'Product',
     description: 'APIs relacionadas ao Product'
-  }]
+  }],
+  paths,
+  schemas,
+  components
 }
