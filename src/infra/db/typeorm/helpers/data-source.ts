@@ -3,7 +3,11 @@ import 'reflect-metadata'
 import path from 'path'
 import { DataSource } from 'typeorm'
 
-let url: string = process.env.DATABASE_URL_PROD as string
+let url: string = 'postgres://postgres:admin@localhost:5432/goomer-lista-rango'
+
+if (process.env.DATABASE_URL_PROD) {
+  url = process.env.DATABASE_URL_PROD
+}
 
 if ((process.env.NODE_ENV || '').trim() === 'test') {
   url = process.env.DATABASE_URL_TEST as string
