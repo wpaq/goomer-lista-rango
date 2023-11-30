@@ -3,10 +3,10 @@ import 'reflect-metadata'
 import path from 'path'
 import { DataSource } from 'typeorm'
 
-let url: string = process.env.DATABASE_URL_PROD as string
+let url = process.env.DATABASE_URL_PROD
 
 if ((process.env.NODE_ENV || '').trim() === 'test') {
-  url = process.env.DATABASE_URL_TEST as string
+  url = process.env.DATABASE_URL_TEST
 }
 
 export const TypeormDataSource = new DataSource({
