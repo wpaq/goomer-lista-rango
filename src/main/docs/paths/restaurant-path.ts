@@ -28,6 +28,7 @@ export const restaurantPath = {
       }
     }
   },
+
   post: {
     tags: ['Restaurant'],
     summary: 'API para criar um restaurant',

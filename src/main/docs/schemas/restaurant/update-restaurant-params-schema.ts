@@ -13,19 +13,6 @@ export const updateRestaurantParamsSchema = {
     openingHours: {
       type: 'string',
       example: '00:00'
-    },
-    promotionalDescription: {
-      type: 'string'
-    },
-    promotionalPrice: {
-      type: 'string'
-    },
-    promotionalDays: {
-      type: 'string'
-    },
-    promotionalHours: {
-      type: 'string',
-      example: '00:00'
     }
   }
 }
