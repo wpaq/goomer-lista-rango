@@ -13,18 +13,21 @@ jobs:
         image: postgres:latest
         
         env:
+          POSTGRES_HOST: ${{ steps.extract_info.outputs.host }}
+          POSTGRES_PORT: 5432
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: admin
           POSTGRES_DB: goomer-lista-rango-test
         ports: 
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-    
+
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js 18.x
       uses: actions/setup-node@v3
       with:
         node-version: 18.x
+    - run: DATABASE_URL_TEST="postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB"
     - run: npm install
     - run: npm run test:server
