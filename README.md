@@ -13,12 +13,33 @@ https://github.com/goomerdev/job-dev-backend-interview
 
 <br>
 
+## Documentação da API com Swagger
+A documentação da API fica na rota: http://localhost:5050/api/api-docs
+
 ## Pré-requisitos
 
 - [Node.js](https://nodejs.org/) instalado
 - [npm](https://www.npmjs.com/) (gerenciador de pacotes do Node.js) instalado
 - [PostgreSQL](https://www.postgresql.org/) instalado
 - [Docker](https://www.docker.com) instalado, caso prefira executar a API por ele
+
+## Configurando o Banco de Dados e Rodando a API Manualmente
+
+1. Faça o clone do repositório
+2. Na raiz do projeto execute `npm install` para instalar as dependências
+3. Inicie o PostgreSQL na sua máquina e crie um banco de dados para a aplicação, caso deseje executar os testes é necessário criar um database somente para testes.
+4. Crie e configure o arquivo `.env` na raiz do projeto com as seguintes variáveis ambiente:
+
+<br>
+
+- `DATABASE_URL_PROD=postgresql://USERNAME:PASSWORD@HOST:PORT/DATABASE_NAME?schema=public`
+- `DATABASE_URL_TEST=postgresql://USERNAME:PASSWORD@HOST:PORT/DATABASE_NAME?schema=public`
+- `API_PORT=`, default: 5050 -  Opcional
+
+5. `npm run migration:run` para aplicar as migrations no banco de dados de produção que você criou
+6. `npm run migration:run:all` para aplicar as migrations tanto no banco de dados de produção quanto no de testes
+7. `npm run build` faz o build da API
+8. `npm start` executa a API
 
 ## APIs construídas no desafio
 
