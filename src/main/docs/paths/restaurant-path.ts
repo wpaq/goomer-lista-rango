@@ -1,7 +1,7 @@
 export const restaurantPath = {
   get: {
     tags: ['Restaurant'],
-    summary: 'API para listar todas as restaurant',
+    summary: 'API para listar todos os restaurants',
     description: 'Essa rota pode ser executada por **qualquer usuário**',
     responses: {
       200: {
