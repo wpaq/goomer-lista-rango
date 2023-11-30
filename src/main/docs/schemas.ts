@@ -4,7 +4,8 @@ import {
   addRestaurantParamsSchema,
   updateRestaurantParamsSchema,
   productSchema,
-  addProductParamsSchema
+  addProductParamsSchema,
+  updateProductParamsSchema
 } from './schemas/'
 
 export default {
@@ -13,5 +14,6 @@ export default {
   addRestaurantParams: addRestaurantParamsSchema,
   updateRestaurantParams: updateRestaurantParamsSchema,
   product: productSchema,
-  addProductParams: addProductParamsSchema
+  addProductParams: addProductParamsSchema,
+  updateProductParams: updateProductParamsSchema
 }

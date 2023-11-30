@@ -1,10 +1,6 @@
-export const productSchema = {
+export const updateProductParamsSchema = {
   type: 'object',
   properties: {
-    id: {
-      type: 'string',
-      format: 'uuid'
-    },
     photo: {
       type: 'string'
     },
@@ -16,10 +12,6 @@ export const productSchema = {
     },
     category: {
       type: 'string'
-    },
-    restaurantId: {
-      type: 'string',
-      format: 'uuid'
     },
     promotionalDescription: {
       type: 'string'
@@ -33,6 +25,5 @@ export const productSchema = {
     promotionalHours: {
       type: 'string'
     }
-  },
-  required: ['id', 'photo', 'name', 'price', 'category']
+  }
 }

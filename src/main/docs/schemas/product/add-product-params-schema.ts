@@ -13,6 +13,10 @@ export const addProductParamsSchema = {
     category: {
       type: 'string'
     },
+    restaurantId: {
+      type: 'string',
+      format: 'uuid'
+    },
     promotionalDescription: {
       type: 'string'
     },
@@ -26,5 +30,5 @@ export const addProductParamsSchema = {
       type: 'string'
     }
   },
-  required: ['photo', 'name', 'price', 'category']
+  required: ['photo', 'name', 'price', 'category', 'restaurantId']
 }
