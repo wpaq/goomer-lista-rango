@@ -81,5 +81,34 @@ export const restaurantPathWithId = {
         $ref: '#/components/serverError'
       }
     }
+  },
+
+  delete: {
+    tags: ['Restaurant'],
+    summary: 'API para deletar um restaurant',
+    description: 'Essa rota pode ser executada por **qualquer usuário**',
+    parameters: [{
+      in: 'path',
+      name: 'restaurantId',
+      required: true,
+      schema: {
+        type: 'string',
+        format: 'uuid'
+      }
+    }],
+    responses: {
+      204: {
+        description: 'Sucesso, mas sem dados para exibir'
+      },
+      403: {
+        $ref: '#/components/forbidden'
+      },
+      404: {
+        $ref: '#/components/notFound'
+      },
+      500: {
+        $ref: '#/components/serverError'
+      }
+    }
   }
 }
