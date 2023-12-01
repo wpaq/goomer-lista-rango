@@ -28,6 +28,9 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: 18.x
-    - run: DATABASE_URL_TEST="postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB"
+    - name: 'Create env file'
+      run: |
+          touch .env
+          echo DATABASE_URL_TEST="postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB" >> .env
     - run: npm install
     - run: npm run test:server
