@@ -28,8 +28,8 @@ services:
     working_dir: /usr/src/goomer-lista-rango
     restart: always
     environment:
-      - DATABASE_URL_DEVELOPMENT=postgres://postgres:admin@localhost:5432/goomer-lista-rango
-      - DATABASE_URL_TEST=postgres://postgres:admin@localhost:5432/goomer-lista-rango-test
+      - DATABASE_URL_DEVELOPMENT=postgresql://postgres:admin@host.docker.internal:5430/goomer-lista-rango
+      - DATABASE_URL_TEST=postgresql://postgres:admin@host.docker.internal:5431/goomer-lista-rango-test
     volumes:
       - ./dist/:/usr/src/goomer-lista-rango/dist/
       - ./package.json:/usr/src/goomer-lista-rango/package.json
