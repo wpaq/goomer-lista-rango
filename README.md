@@ -32,7 +32,7 @@ A documentação da API fica na rota: http://localhost:5050/api/api-docs
 
 <br>
 
-- `DATABASE_URL_PROD=postgresql://USERNAME:PASSWORD@HOST:PORT/DATABASE_NAME?schema=public`
+- `DATABASE_URL_DEVELOPMENT=postgresql://USERNAME:PASSWORD@HOST:PORT/DATABASE_NAME?schema=public`
 - `DATABASE_URL_TEST=postgresql://USERNAME:PASSWORD@HOST:PORT/DATABASE_NAME?schema=public`
 - `API_PORT=`, default: 5050 -  Opcional
 
