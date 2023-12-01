@@ -27,6 +27,10 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: 18.x
+    - name: 'Create env file'
+      run: |
+          touch .env
+          echo DATABASE_URL_TEST="postgres://postgres:admin@localhost:5432/goomer-lista-rango-test" >> .env
     - run: npm install
     - run: npm run test:server
 
