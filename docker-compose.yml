@@ -12,16 +12,6 @@ services:
       POSTGRES_DB: goomer-lista-rango
     ports: 
      - "5430:5432" 
-  postgres-test: 
-    container_name: postgres-container-test
-    image: postgres:latest
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin
-      POSTGRES_DB: goomer-lista-rango-test
-    ports: 
-     - "5431:5432" 
   api:
     container_name: api-container
     image: node:18
@@ -29,13 +19,11 @@ services:
     restart: always
     environment:
       - DATABASE_URL_DEVELOPMENT=postgresql://postgres:admin@host.docker.internal:5430/goomer-lista-rango
-      - DATABASE_URL_TEST=postgresql://postgres:admin@host.docker.internal:5431/goomer-lista-rango-test
     volumes:
       - ./dist/:/usr/src/goomer-lista-rango/dist/
       - ./package.json:/usr/src/goomer-lista-rango/package.json
-    command: bash -c "npm install --omit=dev && npm run migration:run:all && npm start"
+    command: bash -c "npm install --omit=dev && npm run migration:docker && npm start"
     ports: 
       - "5050:5050"
     links:
       - postgres
-      - postgres-test
