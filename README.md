@@ -36,10 +36,22 @@ A documentação da API fica na rota: http://localhost:5050/api/api-docs
 - `DATABASE_URL_TEST=postgresql://USERNAME:PASSWORD@HOST:PORT/DATABASE_NAME?schema=public`
 - `API_PORT=`, default: 5050 -  Opcional
 
+<br>
+
 5. `npm run migration:run` para aplicar as migrations no banco de dados de produção que você criou
-6. `npm run migration:run:all` para aplicar as migrations tanto no banco de dados de produção quanto no de testes
+6. `npm run migration:all` para aplicar as migrations tanto no banco de dados de produção quanto no de testes
 7. `npm run build` faz o build da API
 8. `npm start` executa a API
+
+## Rodando a API com Docker
+
+1. Faça o clone do repositório
+2. Para rodar o container do docker execute `npm run up`, pode demorar para iniciar.
+3. Para encerrar o container execute `npm run down`
+
+<br>
+
+A `API_PORT` padrão é 5050, logo o link fica: `http://localhost:5050`
 
 ## APIs construídas no desafio
 
